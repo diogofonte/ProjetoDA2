@@ -1,0 +1,3 @@
+/Users/diogofonte/feup/da/projetos/projeto2/cmake-build-debug/CMakeFiles/feup_da_AgenciaDeViagens.dir
+/Users/diogofonte/feup/da/projetos/projeto2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/diogofonte/feup/da/projetos/projeto2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

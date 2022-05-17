@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/input")
 
 add_executable(feup_da_AgenciaDeViagens codigo/main.cpp codigo/Menu.cpp codigo/Menu.h codigo/LoadData.h
-        codigo/LoadData.cpp codigo/Escritorio.h codigo/Escritorio.cpp)
+        codigo/LoadData.cpp codigo/Escritorio.h codigo/Escritorio.cpp codigo/Veiculo.h)
 
 # Doxygen Build
 find_package(Doxygen)

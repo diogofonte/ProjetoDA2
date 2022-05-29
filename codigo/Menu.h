@@ -37,10 +37,6 @@ public:
      * Executa o cenário 2
      */
     void menu2();
-    /**
-     * Executa o cenário 3
-     */
-    void menu3();
 
 };
 

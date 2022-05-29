@@ -5,7 +5,7 @@ Menu::Menu() {
     cout << "AGÊNCIA DE VIAGENS" << endl;
 
     option = 0;
-    grafo = Graph(0, 0);
+    grafo = Graph(0);
 
     int num_ficheiro;
     cout << "Insira o número do ficheiro do dataset a usar: ";
@@ -56,8 +56,6 @@ void Menu::processOption() {
             break;
         case 2: menu2();
             break;
-        case 3: menu3();
-            break;
     }
 }
 
@@ -79,7 +77,13 @@ void Menu::menu0() {
 }
 
 void Menu::menu1() {
-    //2 alíneas
+    cout << "3. " << endl;
+    cout << "4. " << endl;
+    cout << "0. Sair." << endl;
+    cout << "\nESCOLHA UMA OPÇÃO:";
+    readOption(0, 4);
+
+    cout << grafo.maximizarDimensaoGrupo(1, 37);
 
     cout << endl;
     option = lastMenu.top();
@@ -87,25 +91,14 @@ void Menu::menu1() {
     processOption();
 }
 
+
 void Menu::menu2() {
-    cout << "3. " << endl;
-    cout << "4. " << endl;
-    cout << "0. Sair." << endl;
+
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 4);
 
-    if (option) {
-        lastMenu.push(0);
-        processOption();
-    }
-    else {
-        cout << "OPERAÇÃO TERMINADA COM SUCESSO";
-        exit (0);
-    }
-}
-
-void Menu::menu3() {
-    for(auto n: grafo.getParagens())
-        cout << n << " ";
-    return;
+    cout << endl;
+    option = lastMenu.top();
+    lastMenu.pop();
+    processOption();
 }

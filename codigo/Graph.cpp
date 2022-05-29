@@ -7,28 +7,21 @@
 Graph::Graph() {}
 
 // Constructor: nr paragens and direction (default: undirected)
-Graph::Graph(int n, int t) {
-    this->n = n;
-    this->t = t;
+Graph::Graph(int n) : n(n), paragens(n + 1) {
 }
 
-vector<int> Graph::getParagens() {
-    vector<int> paragens;
-    for (Node n: this->paragens)
-        paragens.push_back(n.num);
-    return paragens;
-}
-
-void Graph::addParagem(int n) {
+void Graph::addParagem(int num){
     Node paragem;
-    paragem.num = n;
+    paragem.pai = 0;
+    paragem.visited = false;
+    paragem.adj = list<Edge>();
     paragens.push_back(paragem);
 }
 
-// Add edge from source to destination with a certain capacity and duration
-void Graph::addEdge(int src, int dest, int capacidade, int duracao) {
-    if (src<1 || src>n || dest<1 || dest>n) return;
-    paragens[src].adj.push_back({dest, capacidade, duracao});
+// Add edge from source to destinoination with a certain capacity and duration
+void Graph::addEdge(int src, int destino, int capacidade, int duracao) {
+    if (src<1 || src>n || destino<1 || destino>n) return;
+    paragens[src].adj.push_back({destino, capacidade, duracao});
 }
 
 // Depth-First Search: example implementation
@@ -61,37 +54,31 @@ void Graph::bfs(int v) {
     }
 }
 
-void Graph::getShortestPathChangingLines(int origem, int destino, int capacidade) {
-    int pais[paragens.size()];
-    int capacidades[paragens.size()];
-    for(int i = 0; i < paragens.size(); i++) {
-        pais[i] = NULL;
-        capacidades[i] = 0;
+int Graph::maximizarDimensaoGrupo(int origem, int destino) {
+    MaxHeap<int, int> visitas(n, -1);
+    
+    for(auto p: paragens) {
+        p.pai = NULL;
+        p.capacidade = 0;
+    }
+    paragens[origem].capacidade = INT_MAX;
+
+    int i = 1;
+    for(auto p: paragens) {
+        visitas.insert(i, p.capacidade);
+        i++;
     }
 
-    capacidades[origem] = INT_MAX;
-
-    MaxHeap<int, int> paragensVisitadas(paragens.size(), 0);
-
-    while(paragensVisitadas.getSize() > 0) {
-        int v = paragensVisitadas.removeMax();
-
-        for(auto w: paragens[v].adj) {
-            if(min(capacidades[v], w.capacidade) > capacidades[w.destino]) {
-                capacidades[w.destino] = min(capacidades[v], w.capacidade);
-                pais[w.destino] = v;
-                paragensVisitadas.increaseKey(w.destino, capacidades[w.destino]);
+    while(visitas.getSize() > 0) {
+        int v = visitas.removeMax();
+        for(auto a: paragens[v].adj) {
+            int w = a.destino;
+            if(min(paragens[v].capacidade, a.capacidade) > paragens[w].capacidade) {
+                paragens[w].pai = v;
+                paragens[w].capacidade = min(paragens[v].capacidade, a.capacidade);
+                visitas.increaseKey(w, paragens[w].capacidade);
             }
         }
     }
-
-    vector<int> caminho;
-    int pai = paragens[destino].pred;
-    while(pai != origem) {
-        caminho.insert(caminho.begin(), destino);
-        pai = paragens[pai].pred;
-    }
-
-    for(int i=0; i<caminho.size(); i++)
-        cout << caminho[i] << " ";
+    return paragens[destino].capacidade;
 }

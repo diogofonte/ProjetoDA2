@@ -1,16 +1,19 @@
 #include <iomanip>
 #include "Menu.h"
 
-Menu::Menu(): option(0){
-    int percentagem;
+Menu::Menu() {
+    cout << "AGÊNCIA DE VIAGENS" << endl;
 
-    cout << "Agência de Viagens" << endl;
+    option = 0;
+    grafo = Graph(0, 0);
 
-    cout << "Insira a percentagem do dataset a usar (25, 50, 75, 100): ";
-    cin >> percentagem;
+    int num_ficheiro;
+    cout << "Insira o número do ficheiro do dataset a usar: ";
+    cin >> num_ficheiro;
     cout << endl;
 
-    LoadData loadData(a, percentagem);
+    LoadData loadData;
+    this->grafo = loadData.loadGrafo(num_ficheiro);
 
     lastMenu.push(0);   //'0' representa o menu inicial/principal
     menu0();
@@ -53,6 +56,8 @@ void Menu::processOption() {
             break;
         case 2: menu2();
             break;
+        case 3: menu3();
+            break;
     }
 }
 
@@ -83,10 +88,24 @@ void Menu::menu1() {
 }
 
 void Menu::menu2() {
-    //5 alíneas
+    cout << "3. " << endl;
+    cout << "4. " << endl;
+    cout << "0. Sair." << endl;
+    cout << "\nESCOLHA UMA OPÇÃO:";
+    readOption(0, 4);
 
-    cout << endl;
-    option = lastMenu.top();
-    lastMenu.pop();
-    processOption();
+    if (option) {
+        lastMenu.push(0);
+        processOption();
+    }
+    else {
+        cout << "OPERAÇÃO TERMINADA COM SUCESSO";
+        exit (0);
+    }
+}
+
+void Menu::menu3() {
+    for(auto n: grafo.getParagens())
+        cout << n << " ";
+    return;
 }

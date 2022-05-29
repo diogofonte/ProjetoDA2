@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
-project (feup_da_AgenciaDeViagens)
+project(projetoDA2)
 
 set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/input")
 
-add_executable(feup_da_AgenciaDeViagens codigo/main.cpp codigo/Menu.cpp codigo/Menu.h codigo/LoadData.h
-        codigo/LoadData.cpp codigo/Escritorio.h codigo/Escritorio.cpp codigo/Veiculo.h)
+add_executable(projetoDA2 codigo/main.cpp codigo/MaxHeap.h codigo/Graph.h codigo/Graph.cpp codigo/Menu.h codigo/Menu.cpp codigo/LoadData.h codigo/LoadData.cpp)
 
 # Doxygen Build
 find_package(Doxygen)
@@ -24,6 +23,6 @@ if(DOXYGEN_FOUND)
             WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
             COMMENT "Generating API documentation with Doxygen"
             VERBATIM)
-else(DOXYGEN_FOUND)
-    message("Doxygen needs to be installed to generate the documentation.")
+    else(DOXYGEN_FOUND)
+        message("Doxygen needs to be installed to generate the documentation.")
 endif(DOXYGEN_FOUND)

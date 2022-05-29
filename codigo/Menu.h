@@ -1,15 +1,15 @@
-#ifndef FEUP_DA_AGENCIADEVIAGENS_MENU_H
-#define FEUP_DA_AGENCIADEVIAGENS_MENU_H
+#ifndef PROJETODA2_MENU_H
+#define PROJETODA2_MENU_H
 
 #include <stack>
 #include <iostream>
 
-#include "Escritorio.h"
 #include "LoadData.h"
+#include "Graph.h"
 
 class Menu {
 private:
-    Escritorio a;
+    Graph grafo;
     stack<int> lastMenu;
     int option;
 public:
@@ -37,6 +37,11 @@ public:
      * Executa o cenário 2
      */
     void menu2();
+    /**
+     * Executa o cenário 3
+     */
+    void menu3();
+
 };
 
-#endif //FEUP_DA_AGENCIADEVIAGENS_MENU_H
+#endif //PROJETODA2_MENU_H

@@ -2,77 +2,58 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <climits>
 
 using namespace std;
 
-#include "Escritorio.h"
 #include "LoadData.h"
+#include "Graph.h"
 
-LoadData::LoadData(Escritorio &a, int percentagem) {
-    loadEstafetas(a, percentagem);
-    loadEncomendas(a, percentagem);
-}
-
-void LoadData::loadEstafetas(Escritorio &a, int percentagem) {
+Graph LoadData::loadGrafo(int num_ficheiro) const {
     ifstream f;
     string info;
-    double volMax;
-    double pesoMax;
-    double custo;
-    string v, p, c;
+    int n, t;
+    int origem;
+    int destino;
+    int capacidade;
+    int duracao;
+    string n2, t2, o, de, c, du;
 
-    f.open("carrinhas"+to_string(percentagem)+".txt");
+    if(num_ficheiro < 10) {
+        f.open("in0"+to_string(num_ficheiro)+"_b.txt");
+    }
+    else {
+        f.open("in"+to_string(num_ficheiro)+"_b.txt");
+    }
 
     if (!f.is_open()) {
         cout << "Ficheiro nao existe." << endl;
         exit(0);
     }
 
-    f.ignore(LONG_MAX, '\n');
+    stringstream s(info);
+    getline(f, n2, ' ');
+    getline(f, t2, '\n');
+    n = stoi(n2);
+    t = stoi(t2);
+    Graph g(n, t);
     while (getline(f, info)) {
         stringstream s(info);
-        getline (s, v, ' ');
-        getline (s, p, ' ');
+        getline (s, o, ' ');
+        getline (s, de, ' ');
         getline (s, c, ' ');
+        getline (s, du, ' ');
 
-        volMax = stoi(v);
-        pesoMax = stoi(p);
-        custo = stoi(c);
+        origem = stoi(o);
+        destino = stoi(de);
+        capacidade = stoi(c);
+        duracao = stoi(du);
 
-        //a.addEstafeta(Estafeta(volMax, pesoMax, custo, 0.0, 0.0, list<Encomenda>()));
+        g.addParagem(origem);
+        g.addParagem(destino);
+        g.addEdge(origem, destino, capacidade, duracao);
+
     }
     f.close();
-}
 
-void LoadData::loadEncomendas(Escritorio &a, int percentagem) {
-    ifstream f;
-    string info;
-    double volume, peso, recompensa, duracao;
-    string v, p, r, d;
-
-    f.open("encomendas"+to_string(percentagem)+".txt");
-
-    if (!f.is_open()) {
-        cout << "Ficheiro nao existe." << endl;
-        exit(0);
-    }
-
-    f.ignore(LONG_MAX, '\n');
-    while (getline(f, info)) {
-        stringstream s(info);
-        getline (s, v, ' ');
-        getline (s, p, ' ');
-        getline (s, r, ' ');
-        getline (s, d, ' ');
-
-        volume = stoi(v);
-        peso = stoi(p);
-        recompensa = stoi(r);
-        duracao = stoi(d);
-
-        //a.addEncomenda(Encomenda(volume, peso, recompensa, duracao));
-    }
-
-    f.close();
+    return g;
 }

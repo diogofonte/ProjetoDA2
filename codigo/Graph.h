@@ -30,7 +30,10 @@ public:
     Graph(int nodes);
     void addParagem(int num);
     list<Edge> getAdjNodes();
+    int getSize() const {return (int)paragens.size();}
+    int isEmpty(int num) const {return paragens[num].adj.empty();}
     void addEdge(int src, int dest, int capacidade, int duracao);
+    void print();
     void dfs(int v);
     void bfs(int v);
     /** TODO: Apagar complexidade dps do ppt

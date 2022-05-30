@@ -35,7 +35,7 @@ Graph LoadData::loadGrafo(int num_ficheiro) const {
     getline(f, t2, '\n');
     n = stoi(n2);
     t = stoi(t2);
-    Graph g(50);
+    Graph g(n);
     while (getline(f, info)) {
         stringstream s(info);
         getline (s, o, ' ');
@@ -48,11 +48,9 @@ Graph LoadData::loadGrafo(int num_ficheiro) const {
         capacidade = stoi(c);
         duracao = stoi(du);
 
-        g.addParagem(origem);
-        g.addParagem(destino);
+        if(g.isEmpty(origem))g.addParagem(origem);
         g.addEdge(origem, destino, capacidade, duracao);
     }
     f.close();
-
     return g;
 }

@@ -85,6 +85,9 @@ void Menu::menu1() {
 
     cout << grafo.maximizarDimensaoGrupo(1, 37);
 
+    //grafo.print();
+
+
     cout << endl;
     option = lastMenu.top();
     lastMenu.pop();

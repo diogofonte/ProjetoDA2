@@ -3,11 +3,23 @@
 
 #include <iostream>
 #include <queue>
+#include <climits>
 
 Graph::Graph() {}
 
 // Constructor: nr paragens and direction (default: undirected)
-Graph::Graph(int n) : n(n), paragens(n + 1) {
+Graph::Graph(int n) : n(n), paragens(vector<Node>(n+1, {0,0,0})) {
+}
+
+void Graph::print(){
+    for(int i=0; i<paragens.size(); i++){
+        printf("%d:{", i);
+        for(auto it = paragens[i].adj.begin(); it != paragens[i].adj.end(); it++){
+            if(std::next(it) == paragens[i].adj.end()) printf("%d", it->destino);
+            else printf("%d,", it->destino);
+        }
+        printf("}\n");
+    }
 }
 
 void Graph::addParagem(int num){
@@ -15,7 +27,7 @@ void Graph::addParagem(int num){
     paragem.pai = 0;
     paragem.visited = false;
     paragem.adj = list<Edge>();
-    paragens.push_back(paragem);
+    paragens[num]=paragem;
 }
 
 // Add edge from source to destinoination with a certain capacity and duration

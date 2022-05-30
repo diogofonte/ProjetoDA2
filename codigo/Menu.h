@@ -24,19 +24,19 @@ public:
     /**
      * Função para processar o menu escolhido
      */
-    void processOption();
+    void processOption(int num_ficheiro);
     /**
      * Executa o menu inicial
      */
-    void menu0();
+    void menu0(int num_ficheiro);
     /**
      * Executa o cenário 1
      */
-    void menu1();
+    void menu1(int num_ficheiro);
     /**
      * Executa o cenário 2
      */
-    void menu2();
+    void menu2(int num_ficheiro);
 
 };
 

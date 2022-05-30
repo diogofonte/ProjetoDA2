@@ -54,3 +54,41 @@ Graph LoadData::loadGrafo(int num_ficheiro) const {
     f.close();
     return g;
 }
+
+void LoadData::loadGrafo2(vector<vector<int>> &g, int num_ficheiro) const {
+    ifstream f;
+    string info;
+    int origem;
+    int destino;
+    int capacidade;
+    string n2, t2, o, de, c;
+
+    if(num_ficheiro < 10) {
+        f.open("in0"+to_string(num_ficheiro)+"_b.txt");
+    }
+    else {
+        f.open("in"+to_string(num_ficheiro)+"_b.txt");
+    }
+
+    if (!f.is_open()) {
+        cout << "Ficheiro nao existe." << endl;
+        exit(0);
+    }
+
+    stringstream s(info);
+    getline(f, n2, ' ');
+    getline(f, t2, '\n');
+    while (getline(f, info)) {
+        stringstream s(info);
+        getline (s, o, ' ');
+        getline (s, de, ' ');
+        getline (s, c, ' ');
+
+        origem = stoi(o);
+        destino = stoi(de);
+        capacidade = stoi(c);
+
+        g[origem][destino] = capacidade;
+    }
+    f.close();
+}

@@ -82,9 +82,8 @@ void Menu::menu1() {
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 4);
-
-    cout << grafo.maximizarDimensaoGrupo(1, 37);
-
+    //grafo.print();
+    cout << grafo.maximizarDimensaoGrupo(1, 4)<<endl;
     //grafo.print();
 
 

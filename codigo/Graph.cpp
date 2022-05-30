@@ -9,6 +9,7 @@ Graph::Graph() {}
 
 // Constructor: nr paragens and direction (default: undirected)
 Graph::Graph(int n) : n(n), paragens(vector<Node>(n+1, {0,0,0})) {
+
 }
 
 void Graph::print(){
@@ -68,11 +69,6 @@ void Graph::bfs(int v) {
 
 int Graph::maximizarDimensaoGrupo(int origem, int destino) {
     MaxHeap<int, int> visitas(n, -1);
-    
-    for(auto p: paragens) {
-        p.pai = NULL;
-        p.capacidade = 0;
-    }
     paragens[origem].capacidade = INT_MAX;
 
     int i = 1;

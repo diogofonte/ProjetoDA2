@@ -10,15 +10,15 @@ using namespace std;
 
 class Graph {
     struct Edge {
-        int destino;   // Destination node
-        int capacidade; // An integer weight
-        int duracao;
+        int destino=0;   // Destination node
+        int capacidade=0; // An integer weight
+        int duracao=0;
     };
 
     struct Node {
-        int pai;
-        int capacidade;
-        bool visited;   // Has the node been visited on a search?
+        int pai=0;
+        int capacidade=0;
+        bool visited=false;   // Has the node been visited on a search?
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
     };
 

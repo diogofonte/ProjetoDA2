@@ -54,5 +54,5 @@ Graph LoadData::loadGrafo(int num_ficheiro) const {
     }
     f.close();
 
-    return 0;
+    return g;
 }

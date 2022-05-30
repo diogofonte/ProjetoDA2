@@ -5,7 +5,6 @@
 
 class LoadData {
 public:
-    int n;
     Graph loadGrafo(int num_ficheiro) const;
 };
 

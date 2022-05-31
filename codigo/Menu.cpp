@@ -76,6 +76,20 @@ void Menu::menu0(int num_ficheiro) {
     }
 }
 
+void Menu::executeOne1(int origem, int destino){
+    int capacidade = grafo.maximizarDimensaoGrupo(origem, destino);
+    if(capacidade == 0) cout << "Percurso não disponível!" << endl;
+    else cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
+}
+
+void Menu::executeOne2(int origem, int destino){
+    list<int> caminho = grafo.outputCaminho(origem, destino);
+    for (auto n: caminho) {
+        cout << n << " -> ";
+    }
+    cout << endl;
+}
+
 void Menu::menu1(int num_ficheiro) {
     cout << "1. Caminho que maximiza a dimensão do grupo" << endl;
     cout << "2. " << endl;
@@ -92,19 +106,13 @@ void Menu::menu1(int num_ficheiro) {
     cin >> destino;
     cout << endl;
 
-    if(option == 1) {
-        int capacidade = grafo.maximizarDimensaoGrupo(origem, destino);
-        if (capacidade == 0) cout << "Percurso não disponível!" << endl;
-        else
-            cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
-    }
-    else if(option == 2) {
-        //usar 3
-        list<int> caminho = grafo.outputCaminho(origem, destino);
-        for (auto n: caminho) {
-            cout << n << " -> ";
-        }
-        cout << endl;
+    switch(option) {
+        case 1:
+            executeOne1(origem, destino);
+            break;
+        case 2:
+            executeOne2(origem, destino);
+            break;
     }
 
     cout << endl;
@@ -113,6 +121,32 @@ void Menu::menu1(int num_ficheiro) {
     processOption(num_ficheiro);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
+void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
+
+}
+
+void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
+
+}
+
+void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
+    LoadData loadData;
+    Graph2 adjMx = loadData.loadGrafo2(num_ficheiro);
+    vector<int> caminho;
+    int capacidade = adjMx.maximizarDimensaoGrupoSeparado(origem, destino, caminho);
+    if(capacidade == 0) cout << "Percurso não disponível!" << endl;
+    else cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
+}
+
+void Menu::executeTwo4(int num_ficheiro, int origem, int destino){
+
+}
+
+void Menu::executeTwo5(int num_ficheiro, int origem, int destino){
+
+}
 
 void Menu::menu2(int num_ficheiro) {
     cout << "1. Caminho dada uma dimensão para o grupo" << endl;
@@ -131,17 +165,24 @@ void Menu::menu2(int num_ficheiro) {
     cout << "Insira um destino válido: ";
     cin >> destino;
 
-    if(option == 3) {
-        LoadData loadData;
-        Graph2 adjMx = loadData.loadGrafo2(num_ficheiro);
-        vector<int> caminho;
-        int capacidade = adjMx.maximizarDimensaoGrupoSeparado(origem, destino, caminho);
-        if(capacidade == 0) cout << "Percurso não disponível!" << endl;
-        else cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
+    switch(option) {
+        case 1:
+            executeTwo1(num_ficheiro, origem, destino);
+            break;
+        case 2:
+            executeTwo2(num_ficheiro, origem, destino);
+            break;
+        case 3:
+            executeTwo3(num_ficheiro, origem, destino);
+            break;
+        case 4:
+            executeTwo4(num_ficheiro, origem, destino);
+            break;
+        case 5:
+            executeTwo5(num_ficheiro, origem, destino);
+            break;
     }
     //grafo.print();
-
-
     cout << endl;
     option = lastMenu.top();
     lastMenu.pop();

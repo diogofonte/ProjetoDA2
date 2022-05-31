@@ -59,7 +59,7 @@ class Graph2 {
         Graph2(int size);
         void addParagem(int origem, int destino, int capacidade);
         int bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes);
-        int maximizarDimensaoGrupoSeparado(int origem, int destino);
+        int maximizarDimensaoGrupoSeparado(int origem, int destino, vector<int> &caminho);
 };
 
 #endif //PROJETODA2_GRAPH_H

@@ -77,8 +77,8 @@ void Menu::menu0(int num_ficheiro) {
 }
 
 void Menu::menu1(int num_ficheiro) {
-    cout << "3. Caminho que maximiza a dimensão do grupo" << endl;
-    cout << "4. " << endl;
+    cout << "1. Caminho que maximiza a dimensão do grupo" << endl;
+    cout << "2. " << endl;
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 4);
@@ -93,7 +93,7 @@ void Menu::menu1(int num_ficheiro) {
     cout << endl;
 
     switch(option) {
-        case 3:
+        case 1:
             int capacidade = grafo.maximizarDimensaoGrupo(origem, destino);
             if(capacidade == 0) cout << "Percurso não disponível!" << endl;
             else cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
@@ -108,11 +108,11 @@ void Menu::menu1(int num_ficheiro) {
 
 
 void Menu::menu2(int num_ficheiro) {
-    cout << "5. Caminho dada uma dimensão para o grupo" << endl;
-    cout << "6. " << endl;
-    cout << "7. Caminho que maximiza a dimensão do grupo" << endl;
-    cout << "8. " << endl;
-    cout << "9. " << endl;
+    cout << "1. Caminho dada uma dimensão para o grupo" << endl;
+    cout << "2. " << endl;
+    cout << "3. Caminho que maximiza a dimensão do grupo" << endl;
+    cout << "4. " << endl;
+    cout << "5. " << endl;
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 9);
@@ -125,10 +125,11 @@ void Menu::menu2(int num_ficheiro) {
     cin >> destino;
 
     switch(option) {
-        case 7:
+        case 3:
             LoadData loadData;
             Graph2 adjMx = loadData.loadGrafo2(num_ficheiro);
-            int capacidade = adjMx.maximizarDimensaoGrupoSeparado(origem, destino);
+            vector<int> caminho;
+            int capacidade = adjMx.maximizarDimensaoGrupoSeparado(origem, destino, caminho);
             if(capacidade == 0) cout << "Percurso não disponível!" << endl;
             else cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
     }

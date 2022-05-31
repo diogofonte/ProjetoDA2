@@ -128,7 +128,7 @@ int Graph2::bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& 
     return 0;
 }
 
-int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino) {
+int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino, vector<int> &caminho) {
     vector<int> pai(adjMx.size(), -1);
 
     vector<vector<int>> gRes = adjMx;

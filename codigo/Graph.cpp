@@ -49,7 +49,7 @@ void Graph::dfs(int v) {
     }
 }
 
-// Depth-First Search: example implementation
+// Breadth-First Search: example implementation
 void Graph::bfs(int v) {
     for (int v=1; v<=n; v++) paragens[v].visited = false;
     queue<int> q; // queue of unvisited paragens

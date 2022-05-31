@@ -92,7 +92,7 @@ int Graph::maximizarDimensaoGrupo(int origem, int destino) {
     return paragens[destino].capacidade;
 }
 
-int Graph::minimizarTransbordos(int a, int b) {}(int a, int b) {
+int Graph::minimizarTransbordos(int a, int b) {
     MinHeap<int, int> heap(paragens.size(), -1);
     for(int i = 1; i < paragens.size(); i++){
         paragens[i].dist = INT_MAX;
@@ -171,7 +171,7 @@ int Graph2::bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& 
     return 0;
 }
 
-int Graph2::maximizarDimensaoGrupoSeparado(int dimensao, int origem, int destino) {
+int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino, vector<int> &caminho) {
     vector<int> pai(adjMx.size(), -1);
 
     vector<vector<int>> gRes = adjMx;

@@ -37,7 +37,6 @@ public:
      * Executa o cenário 2
      */
     void menu2(int num_ficheiro);
-
 };
 
 #endif //PROJETODA2_MENU_H

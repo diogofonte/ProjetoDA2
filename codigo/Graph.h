@@ -52,4 +52,14 @@ public:
     int maximizarDimensaoGrupo(int origem, int destino);
 };
 
+class Graph2 {
+    private:
+        vector<vector<int>> adjMx;
+    public:
+        Graph2(int size);
+        void addParagem(int origem, int destino, int capacidade);
+        int bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes);
+        int maximizarDimensaoGrupoSeparado(int origem, int destino);
+};
+
 #endif //PROJETODA2_GRAPH_H

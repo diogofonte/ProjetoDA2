@@ -55,7 +55,7 @@ Graph LoadData::loadGrafo(int num_ficheiro) const {
     return g;
 }
 
-void LoadData::loadGrafo2(vector<vector<int>> &g, int num_ficheiro) const {
+Graph2 LoadData::loadGrafo2(int num_ficheiro) const {
     ifstream f;
     string info;
     int origem;
@@ -78,6 +78,7 @@ void LoadData::loadGrafo2(vector<vector<int>> &g, int num_ficheiro) const {
     stringstream s(info);
     getline(f, n2, ' ');
     getline(f, t2, '\n');
+    Graph2 g(stoi(n2));
     while (getline(f, info)) {
         stringstream s(info);
         getline (s, o, ' ');
@@ -88,7 +89,8 @@ void LoadData::loadGrafo2(vector<vector<int>> &g, int num_ficheiro) const {
         destino = stoi(de);
         capacidade = stoi(c);
 
-        g[origem][destino] = capacidade;
+        g.addParagem(origem, destino, capacidade);
     }
     f.close();
+    return g;
 }

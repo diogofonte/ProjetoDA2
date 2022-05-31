@@ -90,3 +90,60 @@ int Graph::maximizarDimensaoGrupo(int origem, int destino) {
     }
     return paragens[destino].capacidade;
 }
+
+Graph2::Graph2(int size) {
+    vector<vector<int>> g(size + 1, vector<int> (size + 1, 0));
+    this->adjMx = g;
+}
+
+void Graph2::addParagem(int origem, int destino, int capacidade) {
+    adjMx[origem][destino] = capacidade;
+}
+
+int Graph2::bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes) {
+    for(int i = 0; i < pai.size(); i++) {
+        if(i == origem) {
+            pai[i] = -2;
+            continue;
+        }
+        pai[i] = -1;
+    }
+    queue<pair<int, int>> q;
+    q.push({origem, INT_MAX});
+
+    while (!q.empty()) {
+        int u = q.front().first;
+        int capacity = q.front().second;
+        q.pop();
+        for (int v=0; v < gRes.size(); v++) {
+            if (u != v && pai[v] == -1 && gRes[u][v] != 0) {
+                pai[v] = u;
+                int capacidade_min = min(capacity, gRes[u][v]);
+                if (v == destino)
+                    return capacidade_min;
+                q.push({v, capacidade_min});
+            }
+        }
+    }
+    return 0;
+}
+
+int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino) {
+    vector<int> pai(adjMx.size(), -1);
+
+    vector<vector<int>> gRes = adjMx;
+
+    int capacidade_min = bfs(origem, destino, pai, gRes), fluxo_max = 0;
+    while (capacidade_min) {
+        fluxo_max += capacidade_min;
+        int u = destino;
+        while (u != origem) {
+            int v = pai[u];
+            gRes[u][v] += capacidade_min;
+            gRes[v][u] -= capacidade_min;
+            u = v;
+        }
+        capacidade_min = bfs(origem, destino, pai, gRes);
+    }
+    return fluxo_max;
+}

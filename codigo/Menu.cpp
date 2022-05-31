@@ -76,55 +76,6 @@ void Menu::menu0(int num_ficheiro) {
     }
 }
 
-int bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes) {
-    for(auto p: pai) {
-        if(p == origem) {
-            p == -2;
-            continue;
-        }
-        p = -1;
-    }
-
-    queue<pair<int, int>> q;
-    q.push({origem, INT_MAX});
-
-    while (!q.empty()) {
-        int u = q.front().first;
-        int capacity = q.front().second;
-        q.pop();
-        for (int v=0; v < gRes.size(); v++) {
-            if (u != v && pai[v] == -1 && gRes[u][v] != 0) {
-                pai[v] = u;
-                int capacidade_min = min(capacity, gRes[u][v]);
-                if (v == destino)
-                    return capacidade_min;
-                q.push({v, capacidade_min});
-            }
-        }
-    }
-    return 0;
-}
-
-int maximizarDimensaoGrupoSeparado(vector<vector<int>>& g, int origem, int destino) {
-    vector<int> pai(g.size(), -1);
-
-    vector<vector<int>> gRes = g;
-
-    int capacidade_min = bfs(origem, destino, pai, gRes), fluxo_max = 0;
-    while (capacidade_min) {
-        fluxo_max += capacidade_min;
-        int u = destino;
-        while (u != origem) {
-            int v = pai[u];
-            gRes[u][v] += capacidade_min;
-            gRes[v][u] -= capacidade_min;
-            u = v;
-        }
-        capacidade_min = bfs(origem, destino, pai, gRes);
-    }
-    return fluxo_max;
-}
-
 void Menu::menu1(int num_ficheiro) {
     cout << "3. Caminho que maximiza a dimensão do grupo" << endl;
     cout << "4. " << endl;
@@ -176,9 +127,8 @@ void Menu::menu2(int num_ficheiro) {
     switch(option) {
         case 7:
             LoadData loadData;
-            vector<vector<int>> grafo2(grafo.getSize() + 1, vector<int> (grafo.getSize() + 1, 0));
-            loadData.loadGrafo2(grafo2, num_ficheiro);
-            int capacidade = maximizarDimensaoGrupoSeparado(grafo2, origem, destino);
+            Graph2 adjMx = loadData.loadGrafo2(num_ficheiro);
+            int capacidade = adjMx.maximizarDimensaoGrupoSeparado(origem, destino);
             if(capacidade == 0) cout << "Percurso não disponível!" << endl;
             else cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
     }

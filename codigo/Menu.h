@@ -45,12 +45,44 @@ public:
     void executeOne1(int origem, int destino);
     /**
      * Execute a alínea 2 do cenário 1
+     * @param origem nó de origem da viagem
+     * @param destino nó de destino da viagem
      */
     void executeOne2(int origem, int destino);
+    /**
+     * Executa a alínea 1 do cenário 2
+     * @param num_ficheiro
+     * @param origem nó de origem da viagem
+     * @param destino nó de destino da viagem
+     */
     void executeTwo1(int num_ficheiro, int origem, int destino);
+    /**
+     * Executa a alínea 2 do cenário 2
+     * @param num_ficheiro
+     * @param origem nó de origem da viagem
+     * @param destino nó de destino da viagem
+     */
     void executeTwo2(int num_ficheiro, int origem, int destino);
+    /**
+     * Executa a alínea 3 do cenário 2
+     * @param num_ficheiro
+     * @param origem nó de origem da viagem
+     * @param destino nó de destino da viagem
+     */
     void executeTwo3(int num_ficheiro, int origem, int destino);
+    /**
+     * Executa a alínea 4 do cenário 2
+     * @param num_ficheiro
+     * @param origem nó de origem da viagem
+     * @param destino nó de destino da viagem
+     */
     void executeTwo4(int num_ficheiro, int origem, int destino);
+    /**
+     * Executa a alínea 5 do cenário 2
+     * @param num_ficheiro
+     * @param origem nó de origem da viagem
+     * @param destino nó de destino da viagem
+     */
     void executeTwo5(int num_ficheiro, int origem, int destino);
 };
 

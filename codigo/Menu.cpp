@@ -83,6 +83,12 @@ void Menu::executeOne1(int origem, int destino){
 }
 
 void Menu::executeOne2(int origem, int destino){
+    //Maximização da dimensão do grupo :
+    //    mostrar caminho que maximiza a dimensão
+
+
+    //Minimização do número de transbordos :
+    //    mostrar caminho que minimiza os transbordos
     list<int> caminho = grafo.outputCaminho(origem, destino);
     for (auto n: caminho) {
         cout << n << " -> ";
@@ -92,7 +98,7 @@ void Menu::executeOne2(int origem, int destino){
 
 void Menu::menu1(int num_ficheiro) {
     cout << "1. Caminho que maximiza a dimensão do grupo" << endl;
-    cout << "2. " << endl;
+    cout << "2. Caminho que maximiza a dimensão do grupo e Caminho que minimiza o número de transbordos" << endl;
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 2);
@@ -149,11 +155,11 @@ void Menu::executeTwo5(int num_ficheiro, int origem, int destino){
 }
 
 void Menu::menu2(int num_ficheiro) {
-    cout << "1. Caminho dada uma dimensão para o grupo" << endl;
-    cout << "2. " << endl;
-    cout << "3. Caminho que maximiza a dimensão do grupo" << endl;
-    cout << "4. " << endl;
-    cout << "5. " << endl;
+    cout << "1. Caminho para um grupo, dada uma dimensão" << endl;
+    cout << "2. Corrigir caminho, se necessário, para que a dimensão de um grupo possa aumentar em um número de unidades dadas" << endl;
+    cout << "3. Dimensão máxima e caminho que maximiza a dimensão do grupo" << endl;
+    cout << "4. Determinar quando é que o grupo se reuniria novamente, partindo de um caminho que constitui um grafo acíclico" << endl;
+    cout << "5. Indicar o tempo máximo de espera e os locais em que alguns elementos esperam pelos colegas de grupo" << endl;
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 5);

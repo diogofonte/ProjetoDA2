@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include "MaxHeap.h"
+#include "MinHeap.h"
 
 #include <iostream>
 #include <queue>
@@ -91,6 +92,48 @@ int Graph::maximizarDimensaoGrupo(int origem, int destino) {
     return paragens[destino].capacidade;
 }
 
+int Graph::minimizarTransbordos(int a, int b) {}(int a, int b) {
+    MinHeap<int, int> heap(paragens.size(), -1);
+    for(int i = 1; i < paragens.size(); i++){
+        paragens[i].dist = INT_MAX;
+        paragens[i].visited = false;
+        heap.insert(i, INT_MAX);
+    }
+    paragens[a].dist = 0;
+    paragens[a].pred = a;
+    heap.decreaseKey(a, 0);
+    while(heap.getSize() != 0){
+        int u = heap.removeMin();
+        paragens[u].visited = true;
+        for(auto edge : paragens[u].adj){
+            int v = edge.destino;
+            if(!paragens[v].visited && paragens[u].dist + edge.capacidade < paragens[v].dist) {
+                int newWeight = paragens[u].dist + edge.capacidade;
+                paragens[v].dist = newWeight;
+                paragens[v].pred = u;
+                heap.decreaseKey(v, newWeight);
+            }
+        }
+    }
+    if(paragens[b].dist == INT_MAX) return -1;
+    else return paragens[b].dist;
+}
+
+list<int> Graph::outputCaminho(int a, int b) {
+    list<int> path;
+    minimizarTransbordos(a, b);
+    path.push_front(b);
+    do{
+        if(paragens[b].pred == b) {
+            path.clear();
+            break;
+        }
+        b = paragens[b].pred;
+        path.push_front(b);
+    }while(b != a);
+    return path;
+}
+
 Graph2::Graph2(int size) {
     vector<vector<int>> g(size + 1, vector<int> (size + 1, 0));
     this->adjMx = g;
@@ -128,7 +171,7 @@ int Graph2::bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& 
     return 0;
 }
 
-int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino) {
+int Graph2::maximizarDimensaoGrupoSeparado(int dimensao, int origem, int destino) {
     vector<int> pai(adjMx.size(), -1);
 
     vector<vector<int>> gRes = adjMx;
@@ -143,6 +186,7 @@ int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino) {
             gRes[v][u] -= capacidade_min;
             u = v;
         }
+
         capacidade_min = bfs(origem, destino, pai, gRes);
     }
     return fluxo_max;

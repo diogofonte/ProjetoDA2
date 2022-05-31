@@ -18,6 +18,8 @@ class Graph {
     };
 
     struct Node {
+        int dist = 0;
+        int pred = 0;
         int pai=0;
         int capacidade=0;
         bool visited=false;   // Has the node been visited on a search?
@@ -38,6 +40,9 @@ public:
     void print();
     void dfs(int v);
     void bfs(int v);
+    int minimizarTransbordos(int a, int b);
+    list<int> outputCaminho(int a, int b);
+
     /** TODO: Apagar complexidade dps do ppt
      * Complexidade temporal: O(E*log(n))\n
      * E: número total de edges que o grafo possui.\n
@@ -59,7 +64,7 @@ class Graph2 {
         Graph2(int size);
         void addParagem(int origem, int destino, int capacidade);
         int bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes);
-        int maximizarDimensaoGrupoSeparado(int origem, int destino);
+        int maximizarDimensaoGrupoSeparado(int dimensao, int origem, int destino);
 };
 
 #endif //PROJETODA2_GRAPH_H

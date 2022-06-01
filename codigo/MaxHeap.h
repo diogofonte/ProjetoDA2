@@ -35,6 +35,7 @@ public:
     void insert(const K& key, const V& value);      // Insert (key, value) on the heap
     void increaseKey(const K& key, const V& value); // Increase value of key
     K removeMax(); // remove and return key with the highest value
+    void print();
 };
 
 // ----------------------------------------------
@@ -116,6 +117,12 @@ K MaxHeap<K,V>::removeMax() {
     a[1] = a[size--];
     downHeap(1);
     return max;
+}
+template <class K, class V>
+void MaxHeap<K,V>::print(){
+    for(auto it:pos){
+        printf("%d %d\n", it.first, it.second);
+    }
 }
 
 #endif //PROJETODA2_MAXHEAP_H

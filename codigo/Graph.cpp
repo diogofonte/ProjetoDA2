@@ -75,20 +75,30 @@ int Graph::maximizarDimensaoGrupo(int origem, int destino) {
     int i = 1;
     for(auto p: paragens) {
         visitas.insert(i, p.capacidade);
+        p.capacidade = INT_MIN;
+        p.pred = 0;
         i++;
     }
 
     while(visitas.getSize() > 0) {
         int v = visitas.removeMax();
+        if(paragens[v].capacidade == INT_MIN) break;
         for(auto a: paragens[v].adj) {
-            int w = a.destino;
-            if(min(paragens[v].capacidade, a.capacidade) > paragens[w].capacidade) {
-                paragens[w].pai = v;
-                paragens[w].capacidade = min(paragens[v].capacidade, a.capacidade);
-                visitas.increaseKey(w, paragens[w].capacidade);
+            int w = min(paragens[v].capacidade, a.capacidade);
+            if(w > paragens[a.destino].capacidade){
+                paragens[a.destino].capacidade = w;
+                paragens[a.destino].pred = v;
+                visitas.increaseKey(v, w);
             }
+            //int w = a.destino;
+//            if(min(paragens[v].capacidade, a.capacidade) > paragens[w].capacidade) {
+//                paragens[w].pai = v;
+//                paragens[w].capacidade = min(paragens[v].capacidade, a.capacidade);
+//                visitas.increaseKey(w, paragens[w].capacidade);
+//            }
         }
     }
+
     return paragens[destino].capacidade;
 }
 
@@ -119,7 +129,18 @@ int Graph::minimizarTransbordos(int a, int b) {
     else return paragens[b].dist;
 }
 
-list<int> Graph::outputCaminho(int a, int b) {
+list<int> Graph::outputCaminho1(int src, int dest) {
+    list<int> path;
+    int u = dest;
+    while(u != 0){
+        path.push_back(u);
+        u = paragens[u].pred;
+    }
+    path.reverse();
+    return path;
+}
+
+list<int> Graph::outputCaminho2(int a, int b) {
     list<int> path;
     minimizarTransbordos(a, b);
     path.push_front(b);

@@ -38,10 +38,12 @@ public:
     int isEmpty(int num) const {return paragens[num].adj.empty();}
     void addEdge(int src, int dest, int capacidade, int duracao);
     void print();
+    void printPath(int src, int target);
     void dfs(int v);
     void bfs(int v);
     int minimizarTransbordos(int a, int b);
-    list<int> outputCaminho(int a, int b);
+    list<int> outputCaminho1(int src, int dest);
+    list<int> outputCaminho2(int a, int b);
 
     /** TODO: Apagar complexidade dps do ppt
      * Complexidade temporal: O(E*log(n))\n

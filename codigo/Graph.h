@@ -34,29 +34,67 @@ public:
     Graph(int nodes);
     void addParagem(int num);
     list<Edge> getAdjNodes();
+    /**
+     * Verifica o tamanho do grafo
+     * @return tamanho do grafo
+     */
     int getSize() const {return (int)paragens.size();}
+    /**
+     * Verifica se um nó tem nós adjacentes
+     * @param num nó a verificar
+     * @return 1 se num não tiver nós adjacentes e 0 caso contrário
+     */
     int isEmpty(int num) const {return paragens[num].adj.empty();}
+    /**
+     * Adiciona uma aresta ao grafo
+     * @param src nó de origem da aresta
+     * @param dest nó de destino da aresta
+     * @param capacidade capacidade da aresta
+     * @param duracao duração da aresta
+     */
     void addEdge(int src, int dest, int capacidade, int duracao);
     void print();
-    void printPath(int src, int target);
+    /**
+     * Função para escrever um caminho entre src e dest
+     * @param src nó de destino
+     * @param dest nó de origem
+     */
+    void printPath(int src, int dest);//ESTA FUNÇÃO ESTÁ POR IMPLEMENTAR, FAZ SENTIDO SENDO QUE TEMO AS FUNÇOES OUTPUT EM BAIXO?
     void dfs(int v);
     void bfs(int v);
-    int minimizarTransbordos(int a, int b);
-    list<int> outputCaminho1(int src, int dest);
-    list<int> outputCaminho2(int a, int b);
-
+    /**
+     * Determina qual o caminho entre dois locais (src e dest) que minimiza o número de transbordos.
+     * @param src nó de src
+     * @param dest nó de dest
+     * @return capacidade do grupo
+     */
+    int minimizarTransbordos(int src, int dest);
     /** TODO: Apagar complexidade dps do ppt
      * Complexidade temporal: O(E*log(n))\n
      * E: número total de edges que o grafo possui.\n
      * n: Tamanho/Número de nós do grafo.\n
      *
-     * Determina, com recurso ao algoritmo de dijkstra, qual o caminho entre dois locais (origem e destino)
+     * Determina, com recurso ao algoritmo de dijkstra, qual o caminho entre dois locais (src e dest)
      * que maximiza a dimensão do grupo.
-     * @param origem é o nó de partida.
-     * @param destino é o nó de chegada.
-     *
+     * @param src é o nó de partida.
+     * @param dest é o nó de chegada.
+     * @return capacidade máxima do grupo
      */
-    int maximizarDimensaoGrupo(int origem, int destino);
+    int maximizarDimensaoGrupo(int src, int dest);
+    /**
+     * Escreve o caminho gerado para maximizar a capacidade do grupo
+     * @param src nó de origem
+     * @param dest nó de destino
+     * @return lista com os nós constituintes do caminho
+     */
+    list<int> outputCaminhoMaxC(int src, int dest);
+    /**
+     * Escreve o caminho gerado para minimizar o número de transbordos
+     * @param src nó de origem
+     * @param dest nó de destino
+     * @return lista com os nós constituintes do caminho
+     */
+    list<int> outputCaminhoMinT(int src, int dest);
 };
 
 class Graph2 {
@@ -66,7 +104,15 @@ class Graph2 {
         Graph2(int size);
         void addParagem(int origem, int destino, int capacidade);
         int bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes);
-        int maximizarDimensaoGrupoSeparado(int origem, int destino, vector<int> &caminho);
+        /**
+         * Determina qual o caminho entre dois locais (src e dest)
+         * que maximiza a dimensão de um grupo que pode ser separado.
+         * @param src nó de origem
+         * @param dest nó de destino
+         * @param caminho caminho pretendido para a viagem
+         * @return dimensão máxima do grupo
+         */
+        int maximizarDimensaoGrupoSeparado(int src, int dest, vector<int> &caminho);
 };
 
 #endif //PROJETODA2_GRAPH_H

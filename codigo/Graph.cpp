@@ -68,9 +68,9 @@ void Graph::bfs(int v) {
     }
 }
 
-int Graph::maximizarDimensaoGrupo(int origem, int destino) {
+int Graph::maximizarDimensaoGrupo(int src, int dest) {
     MaxHeap<int, int> visitas(n, -1);
-    paragens[origem].capacidade = INT_MAX;
+    paragens[src].capacidade = INT_MAX;
 
     int i = 1;
     for(auto p: paragens) {
@@ -90,7 +90,7 @@ int Graph::maximizarDimensaoGrupo(int origem, int destino) {
                 paragens[a.destino].pred = v;
                 visitas.increaseKey(v, w);
             }
-            //int w = a.destino;
+            //int w = a.dest;
 //            if(min(paragens[v].capacidade, a.capacidade) > paragens[w].capacidade) {
 //                paragens[w].pai = v;
 //                paragens[w].capacidade = min(paragens[v].capacidade, a.capacidade);
@@ -99,19 +99,19 @@ int Graph::maximizarDimensaoGrupo(int origem, int destino) {
         }
     }
 
-    return paragens[destino].capacidade;
+    return paragens[dest].capacidade;
 }
 
-int Graph::minimizarTransbordos(int a, int b) {
+int Graph::minimizarTransbordos(int src, int dest) {
     MinHeap<int, int> heap(paragens.size(), -1);
     for(int i = 1; i < paragens.size(); i++){
         paragens[i].dist = INT_MAX;
         paragens[i].visited = false;
         heap.insert(i, INT_MAX);
     }
-    paragens[a].dist = 0;
-    paragens[a].pred = a;
-    heap.decreaseKey(a, 0);
+    paragens[src].dist = 0;
+    paragens[src].pred = src;
+    heap.decreaseKey(src, 0);
     while(heap.getSize() != 0){
         int u = heap.removeMin();
         paragens[u].visited = true;
@@ -125,11 +125,11 @@ int Graph::minimizarTransbordos(int a, int b) {
             }
         }
     }
-    if(paragens[b].dist == INT_MAX) return -1;
-    else return paragens[b].dist;
+    if(paragens[dest].dist == INT_MAX) return -1;
+    else return paragens[dest].dist;
 }
 
-list<int> Graph::outputCaminho1(int src, int dest) {
+list<int> Graph::outputCaminhoMaxC(int src, int dest) {
     list<int> path;
     int u = dest;
     while(u != 0){
@@ -140,18 +140,18 @@ list<int> Graph::outputCaminho1(int src, int dest) {
     return path;
 }
 
-list<int> Graph::outputCaminho2(int a, int b) {
+list<int> Graph::outputCaminhoMinT(int src, int dest) {
     list<int> path;
-    minimizarTransbordos(a, b);
-    path.push_front(b);
+    minimizarTransbordos(src, dest);
+    path.push_front(dest);
     do{
-        if(paragens[b].pred == b) {
+        if(paragens[dest].pred == dest) {
             path.clear();
             break;
         }
-        b = paragens[b].pred;
-        path.push_front(b);
-    }while(b != a);
+        dest = paragens[dest].pred;
+        path.push_front(dest);
+    }while(dest != src);
     return path;
 }
 
@@ -192,23 +192,23 @@ int Graph2::bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& 
     return 0;
 }
 
-int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino, vector<int> &caminho) {
+int Graph2::maximizarDimensaoGrupoSeparado(int src, int dest, vector<int> &caminho) {
     vector<int> pai(adjMx.size(), -1);
 
     vector<vector<int>> gRes = adjMx;
 
-    int capacidade_min = bfs(origem, destino, pai, gRes), fluxo_max = 0;
+    int capacidade_min = bfs(src, dest, pai, gRes), fluxo_max = 0;
     while (capacidade_min) {
         fluxo_max += capacidade_min;
-        int u = destino;
-        while (u != origem) {
+        int u = dest;
+        while (u != src) {
             int v = pai[u];
             gRes[u][v] += capacidade_min;
             gRes[v][u] -= capacidade_min;
             u = v;
         }
 
-        capacidade_min = bfs(origem, destino, pai, gRes);
+        capacidade_min = bfs(src, dest, pai, gRes);
     }
     return fluxo_max;
 }

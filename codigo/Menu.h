@@ -10,6 +10,7 @@
 class Menu {
 private:
     Graph grafo;
+    Graph2 grafo2;
     stack<int> lastMenu;
     int option;
 public:

@@ -6,6 +6,7 @@ Menu::Menu() {
 
     option = 0;
     grafo = Graph(0);
+    grafo2 = Graph2(0);
 
     int num_ficheiro;
     cout << "Insira o número do ficheiro do dataset a usar: ";
@@ -14,6 +15,7 @@ Menu::Menu() {
 
     LoadData loadData;
     this->grafo = loadData.loadGrafo(num_ficheiro);
+    this->grafo2 = loadData.loadGrafo2(num_ficheiro);
 
     lastMenu.push(0);   //'0' representa o menu inicial/principal
     menu0(num_ficheiro);
@@ -117,7 +119,6 @@ void Menu::menu1(int num_ficheiro) {
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 2);
-    //grafo.print();
 
     int origem, destino;
     cout << "Insira um ponto de partida válido: ";
@@ -153,12 +154,20 @@ void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
 }
 
 void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
-    LoadData loadData;
-    Graph2 adjMx = loadData.loadGrafo2(num_ficheiro);
-    vector<int> caminho;
-    int capacidade = adjMx.maximizarDimensaoGrupoSeparado(origem, destino, caminho);
+    int capacidade = grafo2.maximizarDimensaoGrupoSeparado(origem, destino);
     if(capacidade == 0) cout << "Percurso não disponível!" << endl;
-    else cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
+    else {
+        cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
+        list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
+        for (auto caminho: caminhos) {
+            caminho.reverse();
+            for (auto it = caminho.begin(); it != caminho.end(); it++) {
+                if (next(it) == caminho.end()) cout << *it;
+                else cout << *it << " -> ";
+            }
+            printf("\n");
+        }
+    }
 }
 
 void Menu::executeTwo4(int num_ficheiro, int origem, int destino){
@@ -178,7 +187,6 @@ void Menu::menu2(int num_ficheiro) {
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 5);
-    //grafo.print();
 
     int origem, destino;
     cout << "Insira um ponto de partida válido: ";
@@ -203,7 +211,7 @@ void Menu::menu2(int num_ficheiro) {
             executeTwo5(num_ficheiro, origem, destino);
             break;
     }
-    //grafo.print();
+
     cout << endl;
     option = lastMenu.top();
     lastMenu.pop();

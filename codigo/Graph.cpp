@@ -148,64 +148,82 @@ list<int> Graph::outputCaminhoMinT(int src, int dest) {
     return path;
 }
 
-Graph2::Graph2(int size) {
-    vector<vector<int>> g(size + 1, vector<int> (size + 1, 0));
-    this->adjMx = g;
+Graph2::Graph2(int n): n(n), paths(list<list<int>>()) {
+    adj.resize(n+1); // +1 se os nos comecam em 1 ao inves de 0
+    cap.resize(n+1);
+    for (int i=1; i<=n; i++) cap[i].resize(n+1);
 }
 
-void Graph2::addParagem(int origem, int destino, int capacidade) {
-    adjMx[origem][destino] = capacidade;
+void Graph2::addLink(int a, int b, int c) {
+    // adjacencias do grafo nao dirigido, porque podemos ter de andar no sentido
+    // contrario ao procurarmos caminhos de aumento
+    adj[a].push_back(b);
+    adj[b].push_back(a);
+    cap[a][b] = c;
 }
 
-int Graph2::bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes) {
-    for(int i = 0; i < pai.size(); i++) {
-        if(i == origem) {
-            pai[i] = -2;
-            continue;
-        }
-        pai[i] = -1;
-    }
-    queue<pair<int, int>> q;
-    q.push({origem, INT_MAX});
+// BFS para encontrar caminho de aumento
+// devolve valor do fluxo nesse caminho
+int Graph2::bfs(int src, int dest, vector<int> &parent) {
+    for (int i=1; i<=n; i++) parent[i] = -1;
+
+    parent[src] = -2;
+    queue<pair<int, int>> q; // fila do BFS com pares (no, capacidade)
+    q.push({src, INT_MAX});    // inicializar com no origem e capacidade infinita
 
     while (!q.empty()) {
-        int u = q.front().first;
-        int capacity = q.front().second;
+        // returar primeiro no da fila
+        int cur = q.front().first;
+        int flow = q.front().second;
         q.pop();
-        for (int v=0; v < gRes.size(); v++) {
-            if (u != v && pai[v] == -1 && gRes[u][v] != 0) {
-                pai[v] = u;
-                int capacidade_min = min(capacity, gRes[u][v]);
-                if (v == destino)
-                    return capacidade_min;
-                q.push({v, capacidade_min});
+
+        // percorrer nos adjacentes ao no atual (cur)
+        for (int next : adj[cur]) {
+            // se o vizinho ainda nao foi visitado (parent==-1)
+            // e a aresta respetiva ainda tem capacidade para passar fluxo
+            if (parent[next] == -1 && cap[cur][next]>0) {
+                parent[next] = cur;                        // atualizar pai
+                int new_flow = min(flow, cap[cur][next]);  // atualizar fluxo
+                if (next == dest) return new_flow;            // chegamos ao final?
+                q.push({next, new_flow});                  // adicionar a fila
             }
         }
     }
+
     return 0;
 }
 
-int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino) {
-    vector<int> pai(adjMx.size(), -1);
+// Algoritmo de Edmonds-Karp para fluxo maximo entre s e t
+// devolve valor do fluxo maximo (cap[][] fica com grafo residual)
+int Graph2::maximizarDimensaoGrupoSeparado(int src, int dest) {
+    int flow = 0;             // fluxo a calcular
+    vector<int> parent(n+1);  // vetor de pais (permite reconstruir caminho)
+    while (true) {
+        int new_flow = bfs(src, dest, parent); // fluxo de um caminho de aumento
+        if (new_flow == 0) break;         // se nao existir, terminar
 
-    vector<vector<int>> gRes = adjMx;
+        list<int> path;
+        // imprimir fluxo e caminho de aumento
+        //cout << "Caminho de aumento: fluxo " << new_flow << " | " << dest;
+        path.push_back(dest);
 
-    int capacidade_min = bfs(origem, destino, pai, gRes), fluxo_max = 0;
-    while (capacidade_min) {
-        fluxo_max += capacidade_min;
-        int u = destino;
-        while (u != origem) {
-            int v = pai[u];
-            gRes[u][v] += capacidade_min;
-            gRes[v][u] -= capacidade_min;
-            u = v;
+        flow += new_flow;  // aumentar fluxo total com fluxo deste caminho
+        int cur = dest;
+        while (cur != src) { // percorrer caminho de aumento e alterar arestas
+            int prev = parent[cur];
+            cap[prev][cur] -= new_flow;
+            cap[cur][prev] += new_flow;
+            cur = prev;
+            //cout << " <- " << cur; // imprimir proximo no do caminho
+            path.push_back(cur);
         }
-
-        capacidade_min = bfs(origem, destino, pai, gRes);
+        //cout << endl;
+        paths.push_back(path);
     }
-
-    return fluxo_max;
+    return flow;
 }
+
+Graph2::Graph2() {}
 
 int Graph::getDuracaoMinima(int origem, int destino) {
     for (auto p: paragens) {

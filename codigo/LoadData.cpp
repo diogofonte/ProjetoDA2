@@ -89,7 +89,7 @@ Graph2 LoadData::loadGrafo2(int num_ficheiro) const {
         destino = stoi(de);
         capacidade = stoi(c);
 
-        g.addParagem(origem, destino, capacidade);
+        g.addLink(origem, destino, capacidade);
     }
     f.close();
     return g;

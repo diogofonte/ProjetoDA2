@@ -94,11 +94,15 @@ public:
 
 class Graph2 {
     private:
-        vector<vector<int>> adjMx;
+        int n;                    // Numero de nos do grafo
+        vector<vector <int>> adj; // Lista de adjacencias
+        vector<vector <int>> cap; // Matriz de capacidades
+        list<list<int>> paths;
     public:
-        Graph2(int size);
-        void addParagem(int origem, int destino, int capacidade);
-        int bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& gRes);
+        Graph2();
+        Graph2(int n);
+        void addLink(int a, int b, int c);
+        int bfs(int src, int dest, vector<int> &parent);
         /**
          * Determina qual o caminho entre dois locais (src e dest)
          * que maximiza a dimensão de um grupo que pode ser separado.
@@ -107,7 +111,8 @@ class Graph2 {
          * @param caminho caminho pretendido para a viagem
          * @return dimensão máxima do grupo
          */
-        int maximizarDimensaoGrupoSeparado(int origem, int destino);
+        int maximizarDimensaoGrupoSeparado(int src, int dest);
+        list<list<int>> outputCaminhoMaxC(){return paths;}
 };
 
 #endif //PROJETODA2_GRAPH_H

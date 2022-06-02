@@ -13,15 +13,34 @@ using namespace std;
 // Binary min-heap to represent integer keys of type K with values (priorities) of type V
 template <class K, class V>
 class MinHeap {
-    struct Node { // An element of the heap: a pair (key, value)
+    /**
+     * Elemento da Heap
+     * constituído por um par(chave, valor)
+     */
+    struct Node {
         K key;
         V value;
     };
 
-    int size;                  // Number of elements in heap
-    int maxSize;               // Maximum number of elements in heap
-    vector<Node> a;            // The heap array
-    unordered_map<K, int> pos; // maps a key into its position on the array a
+    /**
+     * Número de elementos na Heap
+     */
+    int size;
+    /**
+     * Número máximo de elementos na Heap (capacidade)
+     */
+    int maxSize;
+    /**
+     * Lista de elementos da Heap
+     */
+    vector<Node> elements;
+    /**
+     * Mapa com uma chave e a respetiva posição na lista de elementos
+     */
+    unordered_map<K, int> pos;
+    /**
+     * Chave para erro
+     */
     const K KEY_NOT_FOUND;
 
     void upHeap(int i);
@@ -42,7 +61,7 @@ public:
 // Make a value go "up the tree" until it reaches its position
 template <class K, class V>
 void MinHeap<K,V>::upHeap(int i) {
-    while (i>1 && a[i].value < a[PARENT(i)].value) { // while pos smaller than parent, keep swapping to upper position
+    while (i>1 && elements[i].value < elements[PARENT(i)].value) { // while pos smaller than parent, keep swapping to upper position
         swap(i, PARENT(i));
         i = PARENT(i);
     }
@@ -53,8 +72,8 @@ template <class K, class V>
 void MinHeap<K,V>::downHeap(int i) {
     while (LEFT(i) <= size) { // while within heap limits
         int j = LEFT(i);
-        if (RIGHT(i)<=size && a[RIGHT(i)].value < a[j].value) j = RIGHT(i); // choose smaller child
-        if (a[i].value < a[j].value) break;   // node already smaller than children, stop
+        if (RIGHT(i)<=size && elements[RIGHT(i)].value < elements[j].value) j = RIGHT(i); // choose smaller child
+        if (elements[i].value < elements[j].value) break;   // node already smaller than children, stop
         swap(i, j);                    // otherwise, swap with smaller child
         i = j;
     }
@@ -63,16 +82,16 @@ void MinHeap<K,V>::downHeap(int i) {
 // Swap two positions of the heap (update their positions)
 template <class K, class V>
 void MinHeap<K,V>::swap(int i1, int i2) {
-    Node tmp = a[i1]; a[i1] = a[i2]; a[i2] = tmp;
-    pos[a[i1].key] = i1;
-    pos[a[i2].key] = i2;
+    Node tmp = elements[i1]; elements[i1] = elements[i2]; elements[i2] = tmp;
+    pos[elements[i1].key] = i1;
+    pos[elements[i2].key] = i2;
 }
 
 // ----------------------------------------------
 
 // Create a min-heap for a max of n pairs (K,V) with notFound returned when empty
 template <class K, class V>
-MinHeap<K,V>::MinHeap(int n, const K& notFound) : KEY_NOT_FOUND(notFound), size(0), maxSize(n), a(n+1) {
+MinHeap<K,V>::MinHeap(int n, const K& notFound) : KEY_NOT_FOUND(notFound), size(0), maxSize(n), elements(n + 1) {
 }
 
 // Return number of elements in the heap
@@ -92,7 +111,7 @@ template <class K, class V>
 void MinHeap<K,V>::insert(const K& key, const V& value) {
     if (size == maxSize) return; // heap is full, do nothing
     if (hasKey(key)) return;     // key already exists, do nothing
-    a[++size] = {key, value};
+    elements[++size] = {key, value};
     pos[key] = size;
     upHeap(size);
 }
@@ -102,8 +121,8 @@ template <class K, class V>
 void MinHeap<K,V>::decreaseKey(const K& key, const V& value) {
     if (!hasKey(key)) return; // key does not exist, do nothing
     int i = pos[key];
-    if (value > a[i].value) return; // value would increase, do nothing
-    a[i].value = value;
+    if (value > elements[i].value) return; // value would increase, do nothing
+    elements[i].value = value;
     upHeap(i);
 }
 
@@ -111,9 +130,9 @@ void MinHeap<K,V>::decreaseKey(const K& key, const V& value) {
 template <class K, class V>
 K MinHeap<K,V>::removeMin() {
     if (size == 0) return KEY_NOT_FOUND;
-    K min = a[1].key;
+    K min = elements[1].key;
     pos.erase(min);
-    a[1] = a[size--];
+    elements[1] = elements[size--];
     downHeap(1);
     return min;
 }

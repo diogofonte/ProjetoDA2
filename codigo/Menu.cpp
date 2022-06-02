@@ -5,8 +5,8 @@ Menu::Menu() {
     cout << "AGÊNCIA DE VIAGENS" << endl;
 
     option = 0;
-    grafo = Graph(0);
-    grafo2 = Graph2(0);
+    grafo = Grafo(0);
+    grafo2 = Grafo2(0);
 
     int num_ficheiro;
     cout << "Insira o número do ficheiro do dataset a usar: ";

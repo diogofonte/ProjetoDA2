@@ -6,9 +6,9 @@
 using namespace std;
 
 #include "LoadData.h"
-#include "Graph.h"
+#include "Grafo.h"
 
-Graph LoadData::loadGrafo(int num_ficheiro) const {
+Grafo LoadData::loadGrafo(int num_ficheiro) const {
     ifstream f;
     string info;
     int n, t;
@@ -35,7 +35,7 @@ Graph LoadData::loadGrafo(int num_ficheiro) const {
     getline(f, t2, '\n');
     n = stoi(n2);
     t = stoi(t2);
-    Graph g(n);
+    Grafo g(n);
     while (getline(f, info)) {
         stringstream s(info);
         getline (s, o, ' ');
@@ -49,13 +49,13 @@ Graph LoadData::loadGrafo(int num_ficheiro) const {
         duracao = stoi(du);
 
         if(g.isEmpty(origem))g.addParagem(origem);
-        g.addEdge(origem, destino, capacidade, duracao);
+        g.addAresta(origem, destino, capacidade, duracao);
     }
     f.close();
     return g;
 }
 
-Graph2 LoadData::loadGrafo2(int num_ficheiro) const {
+Grafo2 LoadData::loadGrafo2(int num_ficheiro) const {
     ifstream f;
     string info;
     int origem;
@@ -78,7 +78,7 @@ Graph2 LoadData::loadGrafo2(int num_ficheiro) const {
     stringstream s(info);
     getline(f, n2, ' ');
     getline(f, t2, '\n');
-    Graph2 g(stoi(n2));
+    Grafo2 g(stoi(n2));
     while (getline(f, info)) {
         stringstream s(info);
         getline (s, o, ' ');

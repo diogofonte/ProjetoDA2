@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/input")
 
-add_executable(projetoDA2 codigo/main.cpp codigo/MaxHeap.h codigo/Graph.h codigo/Graph.cpp codigo/Menu.h codigo/Menu.cpp codigo/LoadData.h codigo/LoadData.cpp codigo/MinHeap.h)
+add_executable(projetoDA2 codigo/main.cpp codigo/MaxHeap.h codigo/Grafo.h codigo/Grafo.cpp codigo/Menu.h codigo/Menu.cpp codigo/LoadData.h codigo/LoadData.cpp codigo/MinHeap.h)
 
 # Doxygen Build
 find_package(Doxygen)

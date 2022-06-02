@@ -5,12 +5,12 @@
 #include <iostream>
 
 #include "LoadData.h"
-#include "Graph.h"
+#include "Grafo.h"
 
 class Menu {
 private:
-    Graph grafo;
-    Graph2 grafo2;
+    Grafo grafo;
+    Grafo2 grafo2;
     stack<int> lastMenu;
     int option;
 public:
@@ -40,49 +40,49 @@ public:
     void menu2(int num_ficheiro);
     /**
      * Executa a alínea 1 do cenário 1
-     * @param origem nó de origem da viagem
-     * @param destino nó de destino da viagem
+     * @param origem nó (local) de origem da viagem
+     * @param destino nó (local) de destino da viagem
      */
     void executeOne1(int origem, int destino);
     /**
      * Execute a alínea 2 do cenário 1
-     * @param origem nó de origem da viagem
-     * @param destino nó de destino da viagem
+     * @param origem nó (local) de origem da viagem
+     * @param destino nó (local) de destino da viagem
      */
     void executeOne2(int origem, int destino);
     /**
      * Executa a alínea 1 do cenário 2
-     * @param num_ficheiro
-     * @param origem nó de origem da viagem
-     * @param destino nó de destino da viagem
+     * @param num_ficheiro número do ficheiro escolhido
+     * @param origem nó (local) de origem da viagem
+     * @param destino nó (local) de destino da viagem
      */
     void executeTwo1(int num_ficheiro, int origem, int destino);
     /**
      * Executa a alínea 2 do cenário 2
-     * @param num_ficheiro
-     * @param origem nó de origem da viagem
-     * @param destino nó de destino da viagem
+     * @param num_ficheiro número do ficheiro escolhido
+     * @param origem nó (local) de origem da viagem
+     * @param destino nó (local) de destino da viagem
      */
     void executeTwo2(int num_ficheiro, int origem, int destino);
     /**
      * Executa a alínea 3 do cenário 2
-     * @param num_ficheiro
-     * @param origem nó de origem da viagem
-     * @param destino nó de destino da viagem
+     * @param num_ficheiro número do ficheiro escolhido
+     * @param origem nó (local) de origem da viagem
+     * @param destino nó (local) de destino da viagem
      */
     void executeTwo3(int num_ficheiro, int origem, int destino);
     /**
      * Executa a alínea 4 do cenário 2
-     * @param num_ficheiro
-     * @param origem nó de origem da viagem
-     * @param destino nó de destino da viagem
+     * @param num_ficheiro número do ficheiro escolhido
+     * @param origem nó (local) de origem da viagem
+     * @param destino nó (local) de destino da viagem
      */
     void executeTwo4(int num_ficheiro, int origem, int destino);
     /**
      * Executa a alínea 5 do cenário 2
-     * @param num_ficheiro
-     * @param origem nó de origem da viagem
-     * @param destino nó de destino da viagem
+     * @param num_ficheiro número do ficheiro escolhido
+     * @param origem nó (local) de origem da viagem
+     * @param destino nó (local) de destino da viagem
      */
     void executeTwo5(int num_ficheiro, int origem, int destino);
 };

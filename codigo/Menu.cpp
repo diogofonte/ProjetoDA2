@@ -82,7 +82,8 @@ void Menu::executeOne1(int origem, int destino){
     else{
         cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl
              << "O caminho encontrado foi o seguinte: ";
-        list<int> caminho = grafo.outputCaminhoMaxC(origem, destino);
+        //grafo.test(destino, destino);
+        list<int> caminho = grafo.outputCaminhoMaxC(destino);
         for(auto it = caminho.begin(); it != caminho.end(); it++){
             if(next(it) == caminho.end()) printf("%d\n", *it);
             else printf("%d -> ", *it);
@@ -94,7 +95,7 @@ void Menu::executeOne1(int origem, int destino){
 void Menu::executeOne2(int origem, int destino){
     //mostrar caminho que maximiza a dimensão
     printf("Caminho com maior capacidade: ");
-    list<int> caminho = grafo.outputCaminhoMaxC(origem, destino);
+    list<int> caminho = grafo.outputCaminhoMaxC(destino);
     for(auto it = caminho.begin(); it != caminho.end(); it++){
         if(next(it) == caminho.end()) printf("%d\n", *it);
         else printf("%d -> ", *it);

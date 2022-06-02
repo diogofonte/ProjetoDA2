@@ -5,6 +5,7 @@
 #include <iostream>
 #include <queue>
 #include <climits>
+#include <bits/stdc++.h>
 
 Graph::Graph() {}
 
@@ -69,41 +70,33 @@ void Graph::bfs(int v) {
 }
 
 int Graph::maximizarDimensaoGrupo(int src, int dest) {
-    MaxHeap<int, int> visitas(n, -1);
-    paragens[src].capacidade = INT_MAX;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>container;
+        container.push(make_pair(0, src));
 
-    int i = 1;
-    for(auto p: paragens) {
-        visitas.insert(i, p.capacidade);
-        p.capacidade = INT_MIN;
-        p.pred = 0;
-        i++;
-    }
-
-    while(visitas.getSize() > 0) {
-        int v = visitas.removeMax();
-        if(paragens[v].capacidade == INT_MIN) break;
-        for(auto a: paragens[v].adj) {
-            int w = min(paragens[v].capacidade, a.capacidade);
-            if(w > paragens[a.destino].capacidade){
-                paragens[a.destino].capacidade = w;
-                paragens[a.destino].pred = v;
-                visitas.increaseKey(v, w);
-            }
-            //int w = a.dest;
-//            if(min(paragens[v].capacidade, a.capacidade) > paragens[w].capacidade) {
-//                paragens[w].pai = v;
-//                paragens[w].capacidade = min(paragens[v].capacidade, a.capacidade);
-//                visitas.increaseKey(w, paragens[w].capacidade);
-//            }
+        for(auto it : paragens){
+            it.capacidade = INT_MIN;
+            it.pai = 0;
         }
-    }
+        paragens[src].capacidade = INT_MAX;
 
-    return paragens[dest].capacidade;
+        while (!container.empty()) {
+            pair<int, int> temp = container.top();
+            int current_src = temp.second;
+            container.pop();
+              for(auto vertex : paragens[current_src].adj){
+                int distance = max(paragens[vertex.destino].capacidade, min(paragens[current_src].capacidade, vertex.capacidade));
+                if(distance > paragens[vertex.destino].capacidade){
+                    paragens[vertex.destino].capacidade = distance;
+                    paragens[vertex.destino].pai = current_src;
+                    container.push(make_pair(distance, vertex.destino));
+                }
+            }
+        }
+        return paragens[dest].capacidade;
 }
 
 int Graph::minimizarTransbordos(int src, int dest) {
-    MinHeap<int, int> heap(paragens.size(), -1);
+    MinHeap<int, int> heap((int)paragens.size(), -1);
     for(int i = 1; i < paragens.size(); i++){
         paragens[i].dist = INT_MAX;
         paragens[i].visited = false;
@@ -129,12 +122,12 @@ int Graph::minimizarTransbordos(int src, int dest) {
     else return paragens[dest].dist;
 }
 
-list<int> Graph::outputCaminhoMaxC(int src, int dest) {
+list<int> Graph::outputCaminhoMaxC(int dest) {
     list<int> path;
     int u = dest;
     while(u != 0){
         path.push_back(u);
-        u = paragens[u].pred;
+        u = paragens[u].pai;
     }
     path.reverse();
     return path;
@@ -192,23 +185,64 @@ int Graph2::bfs(int origem, int destino, vector<int>& pai, vector<vector<int>>& 
     return 0;
 }
 
-int Graph2::maximizarDimensaoGrupoSeparado(int src, int dest, vector<int> &caminho) {
+int Graph2::maximizarDimensaoGrupoSeparado(int origem, int destino) {
     vector<int> pai(adjMx.size(), -1);
 
     vector<vector<int>> gRes = adjMx;
 
-    int capacidade_min = bfs(src, dest, pai, gRes), fluxo_max = 0;
+    int capacidade_min = bfs(origem, destino, pai, gRes), fluxo_max = 0;
     while (capacidade_min) {
         fluxo_max += capacidade_min;
-        int u = dest;
-        while (u != src) {
+        int u = destino;
+        while (u != origem) {
             int v = pai[u];
             gRes[u][v] += capacidade_min;
             gRes[v][u] -= capacidade_min;
             u = v;
         }
 
-        capacidade_min = bfs(src, dest, pai, gRes);
+        capacidade_min = bfs(origem, destino, pai, gRes);
     }
+
     return fluxo_max;
+}
+
+int Graph::getDuracaoMinima(int origem, int destino) {
+    for (auto p: paragens) {
+        p.es = 0;
+        p.pai = 0;
+        p.grau = 0;
+    }
+
+    for (auto p: paragens) {
+        for (auto e: p.adj) {
+            paragens[e.destino].grau += 1;
+        }
+    }
+
+    queue<int> s;
+    int dur_min = -1, vf = 0;
+    for (int i = 0; i < paragens.size(); i++)
+        if (paragens[i].grau == 0)
+            s.push(i);
+
+    while (s.size() > 0) {
+        int v = s.front();
+        s.pop();
+        if (dur_min < paragens[v].es) {
+            dur_min = paragens[v].es;
+            vf = v;
+        }
+        for (auto w: paragens[v].adj) {
+            if (paragens[w.destino].es < paragens[v].es + w.duracao) {
+                paragens[w.destino].es = paragens[v].es + w.duracao;
+                paragens[w.destino].pai = v;
+            }
+            paragens[w.destino].grau -= 1;
+            if (paragens[w.destino].grau == 0)
+                s.push(w.destino);
+        }
+    }
+
+    return dur_min;
 }

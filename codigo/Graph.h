@@ -18,12 +18,9 @@ class Graph {
     };
 
     struct Node {
-        int dist = 0;
-        int pred = 0;
-        int pai=0;
-        int capacidade=0;
+        int dist = 0, pred = 0, pai=0, es = 0, lf = 0, grau = 0, capacidade=0, latest_finish = 0;
         bool visited=false;   // Has the node been visited on a search?
-        list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
+        list<Edge> adj = {}; // The list of outgoing edges (to adjacent nodes)
     };
 
     int n;              // Graph size (vertices are numbered from 1 to n)
@@ -33,7 +30,6 @@ public:
     Graph();
     Graph(int nodes);
     void addParagem(int num);
-    list<Edge> getAdjNodes();
     /**
      * Verifica o tamanho do grafo
      * @return tamanho do grafo
@@ -59,7 +55,6 @@ public:
      * @param src nó de destino
      * @param dest nó de origem
      */
-    void printPath(int src, int dest);//ESTA FUNÇÃO ESTÁ POR IMPLEMENTAR, FAZ SENTIDO SENDO QUE TEMO AS FUNÇOES OUTPUT EM BAIXO?
     void dfs(int v);
     void bfs(int v);
     /**
@@ -83,11 +78,10 @@ public:
     int maximizarDimensaoGrupo(int src, int dest);
     /**
      * Escreve o caminho gerado para maximizar a capacidade do grupo
-     * @param src nó de origem
      * @param dest nó de destino
      * @return lista com os nós constituintes do caminho
      */
-    list<int> outputCaminhoMaxC(int src, int dest);
+    list<int> outputCaminhoMaxC(int dest);
     /**
      * Escreve o caminho gerado para minimizar o número de transbordos
      * @param src nó de origem
@@ -95,6 +89,7 @@ public:
      * @return lista com os nós constituintes do caminho
      */
     list<int> outputCaminhoMinT(int src, int dest);
+    int getDuracaoMinima(int origem, int destino);
 };
 
 class Graph2 {
@@ -112,7 +107,7 @@ class Graph2 {
          * @param caminho caminho pretendido para a viagem
          * @return dimensão máxima do grupo
          */
-        int maximizarDimensaoGrupoSeparado(int src, int dest, vector<int> &caminho);
+        int maximizarDimensaoGrupoSeparado(int origem, int destino);
 };
 
 #endif //PROJETODA2_GRAPH_H

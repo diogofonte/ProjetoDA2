@@ -5,7 +5,7 @@
 #include <iostream>
 #include <queue>
 #include <climits>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 
 Grafo::Grafo() {}
 
@@ -103,7 +103,7 @@ int Grafo::minimizarTransbordos(int src, int dest) {
         heap.insert(i, INT_MAX);
     }
     paragens[src].dist = 0;
-    paragens[src].pred = src;
+    paragens[src].pai = src;
     heap.decreaseKey(src, 0);
     while(heap.getSize() != 0){
         int u = heap.removeMin();
@@ -113,7 +113,7 @@ int Grafo::minimizarTransbordos(int src, int dest) {
             if(!paragens[v].visited && paragens[u].dist + edge.capacidade < paragens[v].dist) {
                 int newWeight = paragens[u].dist + edge.capacidade;
                 paragens[v].dist = newWeight;
-                paragens[v].pred = u;
+                paragens[v].pai = u;
                 heap.decreaseKey(v, newWeight);
             }
         }
@@ -178,11 +178,11 @@ list<int> Grafo::outputCaminhoMinT(int src, int dest) {
     minimizarTransbordos(src, dest);
     path.push_front(dest);
     do{
-        if(paragens[dest].pred == dest) {
+        if(paragens[dest].pai == dest) {
             path.clear();
             break;
         }
-        dest = paragens[dest].pred;
+        dest = paragens[dest].pai;
         path.push_front(dest);
     } while(dest != src);
     return path;

@@ -26,23 +26,30 @@ class Grafo {
     };
 
     struct Node {
+        /**
+         * Distância da paragem à origem do percurso
+         */
         int dist = 0;
-        int pred = 0;
         /**
          * Nó pai deste nó (local)
          */
         int pai = 0;
+        /**
+         * earliest start do nó
+         */
         int es = 0;
+        /**
+         * latest finish do nó
+         */
         int lf = 0;
         /**
          * Grau do nó (local)
          */
         int grau = 0;
         /**
-         * Capacidade do nó (local)
+         * Capacidade que chega ao nó (local)
          */
         int capacidade = 0;
-        int latest_finish = 0;
         /**
          * Variável para controlar se o nó (local) já foi ou não visitado numa pesquisa
          */

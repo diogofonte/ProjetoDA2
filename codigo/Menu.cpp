@@ -96,7 +96,7 @@ void Menu::executeOne1(int origem, int destino){
 
 void Menu::executeOne2(int origem, int destino){
     //mostrar caminho que maximiza a dimensão
-    printf("Caminho com maior capacidade: ");
+    cout << "Caminho com maior capacidade: ";
     list<int> caminho = grafo.outputCaminhoMaxC(destino);
     for(auto it = caminho.begin(); it != caminho.end(); it++){
         if(next(it) == caminho.end()) printf("%d\n", *it);
@@ -104,7 +104,7 @@ void Menu::executeOne2(int origem, int destino){
     }
 
     //mostrar caminho que minimiza os transbordos
-    printf("Caminho com menos transbordos: ");
+    cout << "Caminho com menos transbordos: ";
     list<int> caminho2 = grafo.outputCaminhoMinT(origem, destino);
     for (auto it = caminho2.begin(); it!=caminho2.end(); it++) {
        if(next(it) == caminho2.end()) cout << *it;
@@ -149,18 +149,49 @@ void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
     int dimensao;
     cout << "Insira a dimensão do grupo: ";
     cin >> dimensao;
+    cout << endl;
     if(dimensao <= 0){
-        cout << "Dimensão do grupo inválida";
+        cout << "Dimensão do grupo inválida" << endl;
         return;
     }
     bool maxDim = grafo2.encaminhamento(origem, destino, dimensao);
     if(!maxDim){
-        printf("Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo");
+        cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
         return;
     }
 }
 
 void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
+    // parte do 2.1
+    int dimensao;
+    cout << "Insira a dimensão do grupo: ";
+    cin >> dimensao;
+    cout << endl;
+    if(dimensao <= 0){
+        cout << "Dimensão do grupo inválida" << endl;
+        return;
+    }
+    bool maxDim = grafo2.encaminhamento(origem, destino, dimensao);
+    if(!maxDim){
+        cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
+        return;
+    }
+    // fim da execução da parte da primeira dimensão
+
+    // início da parte com novos passageiros
+    int incremento;
+    cout << "Insira o número de novos passageiros: ";
+    cin >> incremento;
+    cout << endl;
+    if(incremento <= 0){
+        cout << "Incremento do grupo inválido" << endl;
+        return;
+    }
+    bool maxDim2 = grafo2.encaminhamento(origem, destino, dimensao + incremento);
+    if(!maxDim2){
+        cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
+        return;
+    }
 
 }
 
@@ -176,12 +207,12 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
                 if (next(it) == caminho.end()) cout << *it;
                 else cout << *it << " -> ";
             }
-            printf("\n");
+            cout << endl;
         }
         for(auto it : grafo2.getCaps()){
             printf("%d ", it);
         }
-        printf("\n");
+        cout << endl;
     }
 }
 

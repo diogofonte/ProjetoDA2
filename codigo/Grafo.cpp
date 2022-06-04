@@ -216,7 +216,7 @@ int Grafo2::bfs(int src, int dest, vector<int> &parent) {
     for (int i=1; i<=n; i++) parent[i] = -1;
 
     parent[src] = -2;
-    queue<pair<int, int>> q;            // fila do BFS com pares (no, capacidade)
+    queue<pair<int, int>> q;              // fila do BFS com pares (no, capacidade)
     q.push({src, INT_MAX});    // inicializar com no origem e capacidade infinita
 
     while (!q.empty()) {

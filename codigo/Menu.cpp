@@ -14,8 +14,8 @@ Menu::Menu() {
     cout << endl;
 
     LoadData loadData;
-    this->grafo = loadData.loadGrafo(num_ficheiro);
-    this->grafo2 = loadData.loadGrafo2(num_ficheiro);
+    grafo = loadData.loadGrafo(num_ficheiro);
+    grafo2 = loadData.loadGrafo2(num_ficheiro);
 
     lastMenu.push(0);   //'0' representa o menu inicial/principal
     menu0(num_ficheiro);
@@ -52,11 +52,14 @@ void Menu::readOption(const unsigned& minOption, const unsigned& maxOption) {
 
 void Menu::processOption(int num_ficheiro) {
     switch (option) {
-        case 0: menu0(num_ficheiro);
+        case 0:
+            menu0(num_ficheiro);
             break;
-        case 1: menu1(num_ficheiro);
+        case 1:
+            menu1(num_ficheiro);
             break;
-        case 2: menu2(num_ficheiro);
+        case 2:
+            menu2(num_ficheiro);
             break;
     }
 }
@@ -78,39 +81,42 @@ void Menu::menu0(int num_ficheiro) {
     }
 }
 
-void Menu::executeOne1(int origem, int destino){
+void Menu::executeOne1(int num_ficheiro, int origem, int destino){
     int capacidade = grafo.maximizarDimensaoGrupo(origem, destino);
     if(capacidade == 0) cout << "Percurso não disponível!" << endl;
     else{
-        cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl
+        cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " passageiros." << endl
              << "O caminho encontrado foi o seguinte: ";
-        //grafo.test(destino, destino);
         list<int> caminho = grafo.outputCaminhoMaxC(destino);
         for(auto it = caminho.begin(); it != caminho.end(); it++){
             if(next(it) == caminho.end()) printf("%d\n", *it);
             else printf("%d -> ", *it);
         }
     }
-
+    LoadData loadData;
+    grafo = loadData.loadGrafo(num_ficheiro);
 }
 
-void Menu::executeOne2(int origem, int destino){
+void Menu::executeOne2(int num_ficheiro, int origem, int destino){
     //mostrar caminho que maximiza a dimensão
     cout << "Caminho com maior capacidade: ";
-    list<int> caminho = grafo.outputCaminhoMaxC(destino);
-    for(auto it = caminho.begin(); it != caminho.end(); it++){
-        if(next(it) == caminho.end()) printf("%d\n", *it);
+    list<int> caminhoMaxC = grafo.outputCaminhoMaxC(destino);
+    for(auto it = caminhoMaxC.begin(); it != caminhoMaxC.end(); it++){
+        if(next(it) == caminhoMaxC.end()) printf("%d\n", *it);
         else printf("%d -> ", *it);
     }
 
     //mostrar caminho que minimiza os transbordos
     cout << "Caminho com menos transbordos: ";
-    list<int> caminho2 = grafo.outputCaminhoMinT(origem, destino);
-    for (auto it = caminho2.begin(); it!=caminho2.end(); it++) {
-       if(next(it) == caminho2.end()) cout << *it;
+    list<int> caminhoMinT = grafo.outputCaminhoMinT(origem, destino);
+    for (auto it = caminhoMinT.begin(); it!=caminhoMinT.end(); it++) {
+       if(next(it) == caminhoMinT.end()) cout << *it;
        else cout << *it << " -> ";
     }
     cout << endl;
+
+    LoadData loadData;
+    grafo = loadData.loadGrafo(num_ficheiro);
 }
 
 void Menu::menu1(int num_ficheiro) {
@@ -130,10 +136,10 @@ void Menu::menu1(int num_ficheiro) {
 
     switch(option) {
         case 1:
-            executeOne1(origem, destino);
+            executeOne1(num_ficheiro, origem, destino);
             break;
         case 2:
-            executeOne2(origem, destino);
+            executeOne2(num_ficheiro, origem, destino);
             break;
     }
 
@@ -159,6 +165,9 @@ void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
         cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
         return;
     }
+
+    LoadData loadData;
+    grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
 void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
@@ -193,6 +202,8 @@ void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
         return;
     }
 
+    LoadData loadData;
+    grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
 void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
@@ -214,14 +225,23 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
         }
         cout << endl;
     }
+
+    LoadData loadData;
+    grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
 void Menu::executeTwo4(int num_ficheiro, int origem, int destino){
 
+
+    LoadData loadData;
+    grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
 void Menu::executeTwo5(int num_ficheiro, int origem, int destino){
 
+
+    LoadData loadData;
+    grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
 void Menu::menu2(int num_ficheiro) {

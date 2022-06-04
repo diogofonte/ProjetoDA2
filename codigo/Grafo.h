@@ -178,10 +178,13 @@ class Grafo2 {
          * Matriz de capacidades do grafo
          */
         vector<vector <int>> cap;
+        vector<vector <int>> cap_safe_copy;
         /**
          * Lista de caminhos do grafo
          */
         list<list<int>> paths;
+        // caps[i] = paths[i].capacidade
+        list<int> caps;
     public:
         /**
          * Contrutor por omissão de argumentos de um grafo
@@ -221,9 +224,9 @@ class Grafo2 {
          * Devolve a lista dos caminhos do grafo
          * @return lista de caminhos encontrados
          */
-        list<list<int>> outputCaminhoMaxC(){
-            return paths;
-        }
+        list<list<int>> outputCaminhoMaxC(){return paths;}
+        bool encaminhamento(int src, int dest, int size);
+        list<int> getCaps(){return caps;}
 };
 
 #endif //PROJETODA2_GRAFO_H

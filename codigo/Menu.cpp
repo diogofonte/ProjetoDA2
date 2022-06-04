@@ -146,7 +146,18 @@ void Menu::menu1(int num_ficheiro) {
 //----------------------------------------------------------------------------------------------------------------------
 
 void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
-
+    int dimensao;
+    cout << "Insira a dimensão do grupo: ";
+    cin >> dimensao;
+    if(dimensao <= 0){
+        cout << "Dimensão do grupo inválida";
+        return;
+    }
+    bool maxDim = grafo2.encaminhamento(origem, destino, dimensao);
+    if(!maxDim){
+        printf("Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo");
+        return;
+    }
 }
 
 void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
@@ -167,6 +178,10 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
             }
             printf("\n");
         }
+        for(auto it : grafo2.getCaps()){
+            printf("%d ", it);
+        }
+        printf("\n");
     }
 }
 

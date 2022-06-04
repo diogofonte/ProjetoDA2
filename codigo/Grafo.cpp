@@ -5,6 +5,7 @@
 #include <iostream>
 #include <queue>
 #include <climits>
+//#include <iomanip>
 //#include <bits/stdc++.h>
 
 Grafo::Grafo() {}
@@ -192,10 +193,12 @@ list<int> Grafo::outputCaminhoMinT(int src, int dest) {
 
 Grafo2::Grafo2() {}
 
-Grafo2::Grafo2(int nodes): n(nodes), paths(list<list<int>>()) {
+Grafo2::Grafo2(int nodes): n(nodes), paths(list<list<int>>()), caps(list<int>()) {
     adj.resize(nodes + 1); // +1 se os nos comecam em 1 ao inves de 0
     cap.resize(nodes + 1);
+    cap_safe_copy.resize(nodes + 1);
     for (int i=1; i <= nodes; i++) cap[i].resize(nodes + 1);
+    for (int i=1; i <= nodes; i++) cap_safe_copy[i].resize(nodes + 1);
 }
 
 void Grafo2::addLink(int a, int b, int c) {
@@ -204,6 +207,7 @@ void Grafo2::addLink(int a, int b, int c) {
     adj[a].push_back(b);
     adj[b].push_back(a);
     cap[a][b] = c;
+    cap_safe_copy[a][b] = c;
 }
 
 // BFS para encontrar caminho de aumento
@@ -237,32 +241,70 @@ int Grafo2::bfs(int src, int dest, vector<int> &parent) {
     return 0;
 }
 
-// Algoritmo de Edmonds-Karp para fluxo maximo entre s e t
-// devolve valor do fluxo maximo (cap[][] fica com grafo residual)
 int Grafo2::maximizarDimensaoGrupoSeparado(int src, int dest) {
-    int flow = 0;             // fluxo a calcular
-    vector<int> parent(n+1);  // vetor de pais (permite reconstruir caminho)
+    cap = cap_safe_copy;
+    paths.clear();
+    caps.clear();
+    int flow = 0;
+    vector<int> parent(n+1);
     while (true) {
-        int new_flow = bfs(src, dest, parent); // fluxo de um caminho de aumento
-        if (new_flow == 0) break;         // se nao existir, terminar
+        int new_flow = bfs(src, dest, parent);
+        if (new_flow == 0) break;
 
         list<int> path;
-        // imprimir fluxo e caminho de aumento
-        //cout << "Caminho de aumento: fluxo " << new_flow << " | " << dest;
         path.push_back(dest);
 
-        flow += new_flow;  // aumentar fluxo total com fluxo deste caminho
+        caps.push_back(new_flow);
+        flow += new_flow;
         int cur = dest;
-        while (cur != src) { // percorrer caminho de aumento e alterar arestas
+        while (cur != src) {
             int prev = parent[cur];
             cap[prev][cur] -= new_flow;
             cap[cur][prev] += new_flow;
             cur = prev;
-            //cout << " <- " << cur; // imprimir proximo no do caminho
             path.push_back(cur);
         }
-        //cout << endl;
         paths.push_back(path);
     }
     return flow;
+}
+
+bool Grafo2::encaminhamento(int src, int dest, int size) {
+    int maxDimensao = maximizarDimensaoGrupoSeparado(src, dest);
+    if(maxDimensao < size) return false;
+    printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
+    bool visited[caps.size()];
+    int actual_size = size;
+    while(actual_size > 0){
+        int max=0, i=0, maxIndex=0;
+        for(auto it : caps){
+            if(it > max && !visited[i]){
+                maxIndex = i;
+                max = it;
+            }
+            i++;
+        }
+        visited[maxIndex] = true;
+        actual_size-=max;
+        int qntPessoas;
+        if(actual_size < 0){
+            qntPessoas = max + actual_size;
+        }else{
+            qntPessoas = max;
+        }
+        printf("%d/%d: ", qntPessoas, max);
+        int j=0;
+        for(auto it : paths){
+            if(j == maxIndex){
+                it.reverse();
+                for (auto it2 = it.begin(); it2 != it.end(); it2++) {
+                    if (next(it2) == it.end()) cout << *it2;
+                    else cout << *it2 << " -> ";
+                }
+                printf("\n");
+            }
+            j++;
+        }
+    }
+    return true;
 }

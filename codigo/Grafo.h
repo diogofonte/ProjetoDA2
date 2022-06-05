@@ -179,10 +179,12 @@ class Grafo2 {
          * Matriz de capacidades do grafo
          */
         vector<vector <int>> cap;
+        vector<vector <int>> cap_safe_copy;
         /**
          * Lista de caminhos do grafo
          */
         list<list<int>> paths;
+        list<int> caps;
     public:
         /**
          * Contrutor por omissão de argumentos de um grafo
@@ -193,6 +195,11 @@ class Grafo2 {
          * @param nodes número de nós (locais) que o grafo terá
          */
         Grafo2(int nodes);
+        /**
+         * Devolve a
+         * @return
+         */
+        list<int> getCaps(){return caps;}
         /**
          * Adiciona adjacência do grafo dirigido
          * para podermos andar no sentido contrario quando procuramos caminhos de aumento
@@ -222,9 +229,16 @@ class Grafo2 {
          * Devolve a lista dos caminhos do grafo
          * @return lista de caminhos encontrados
          */
-        list<list<int>> outputCaminhoMaxC(){
-            return paths;
-        }
+        list<list<int>> outputCaminhoMaxC(){return paths;}
+        /**
+         * Gera um caminho ou vários entre src e dest
+         * para uma determinada dimensão de um grupo
+         * @param src nó (local) de origem
+         * @param dest nó (local) de destino
+         * @param size dimensão do grupo
+         * @return true se encontrou um caminho possível ou false se contrário
+         */
+        bool encaminhamento(int src, int dest, int size);
 };
 
 #endif //PROJETODA2_GRAFO_H

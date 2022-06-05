@@ -43,13 +43,13 @@ public:
      * @param origem nó (local) de origem da viagem
      * @param destino nó (local) de destino da viagem
      */
-    void executeOne1(int origem, int destino);
+    void executeOne1(int num_ficheiro, int origem, int destino);
     /**
      * Execute a alínea 2 do cenário 1
      * @param origem nó (local) de origem da viagem
      * @param destino nó (local) de destino da viagem
      */
-    void executeOne2(int origem, int destino);
+    void executeOne2(int num_ficheiro, int origem, int destino);
     /**
      * Executa a alínea 1 do cenário 2
      * @param num_ficheiro número do ficheiro escolhido

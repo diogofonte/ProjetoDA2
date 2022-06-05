@@ -222,9 +222,7 @@ Grafo2::Grafo2() {}
 Grafo2::Grafo2(int nodes): n(nodes), paths(list<list<int>>()), caps(list<int>()) {
     adj.resize(nodes + 1); // +1 se os nos comecam em 1 ao inves de 0
     cap.resize(nodes + 1);
-    cap_safe_copy.resize(nodes + 1);
     for (int i=1; i <= nodes; i++) cap[i].resize(nodes + 1);
-    for (int i=1; i <= nodes; i++) cap_safe_copy[i].resize(nodes + 1);
 }
 
 void Grafo2::addLink(int a, int b, int c) {
@@ -233,7 +231,6 @@ void Grafo2::addLink(int a, int b, int c) {
     adj[a].push_back(b);
     adj[b].push_back(a);
     cap[a][b] = c;
-    cap_safe_copy[a][b] = c;
 }
 
 // BFS para encontrar caminho de aumento
@@ -268,7 +265,6 @@ int Grafo2::bfs(int src, int dest, vector<int> &parent) {
 }
 
 int Grafo2::maximizarDimensaoGrupoSeparado(int src, int dest) {
-    cap = cap_safe_copy;
     paths.clear();
     caps.clear();
     int flow = 0;
@@ -298,39 +294,5 @@ int Grafo2::maximizarDimensaoGrupoSeparado(int src, int dest) {
 bool Grafo2::encaminhamento(int src, int dest, int size) {
     int maxDimensao = maximizarDimensaoGrupoSeparado(src, dest);
     if(maxDimensao < size) return false;
-    printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
-    bool visited[caps.size()];
-    int actual_size = size;
-    while(actual_size > 0){
-        int max=0, i=0, maxIndex=0;
-        for(auto it : caps){
-            if(it > max && !visited[i]){
-                maxIndex = i;
-                max = it;
-            }
-            i++;
-        }
-        visited[maxIndex] = true;
-        actual_size-=max;
-        int qntPessoas;
-        if(actual_size < 0){
-            qntPessoas = max + actual_size;
-        }else{
-            qntPessoas = max;
-        }
-        printf("%d/%d: ", qntPessoas, max);
-        int j=0;
-        for(auto it : paths){
-            if(j == maxIndex){
-                it.reverse();
-                for (auto it2 = it.begin(); it2 != it.end(); it2++) {
-                    if (next(it2) == it.end()) cout << *it2;
-                    else cout << *it2 << " -> ";
-                }
-                printf("\n");
-            }
-            j++;
-        }
-    }
     return true;
 }

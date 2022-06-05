@@ -164,8 +164,34 @@ void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
     if(!maxDim){
         cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
         return;
+    }else{
+        list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
+        list<int> caps = grafo2.getCaps();
+        printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
+        int actual_size = dimensao, index = 0;
+        for(auto it = caps.begin(); it != caps.end(); it++, index++){
+            actual_size -= *it;
+            int qnt_pessoas;
+            if(actual_size < 0){
+                qnt_pessoas = *it + actual_size;
+            }else{
+                qnt_pessoas = *it;
+            }
+            printf("%d/%d: ", qnt_pessoas, *it);
+            int j = 0;
+            for(auto it : caminhos){
+                if(j == index){
+                    it.reverse();
+                    for (auto it2 = it.begin(); it2 != it.end(); it2++) {
+                        if (next(it2) == it.end()) cout << *it2;
+                        else cout << *it2 << " -> ";
+                    }
+                    printf("\n");
+                }
+                j++;
+            }
+        }
     }
-
     LoadData loadData;
     grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
@@ -212,16 +238,16 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
     else {
         cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
         list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
-        for (auto caminho: caminhos) {
-            caminho.reverse();
-            for (auto it = caminho.begin(); it != caminho.end(); it++) {
-                if (next(it) == caminho.end()) cout << *it;
+        list<int> capacidades = grafo2.getCaps();
+        auto cap = capacidades.begin();
+        for (auto caminho = caminhos.begin(); caminho != caminhos.end(); caminho++, cap++) {
+            caminho->reverse();
+            for (auto it = caminho->begin(); it != caminho->end(); it++) {
+                if (next(it) == caminho->end()) cout << *it;
                 else cout << *it << " -> ";
             }
+            cout << " com " << *cap <<" de capacidade";
             cout << endl;
-        }
-        for(auto it : grafo2.getCaps()){
-            printf("%d ", it);
         }
         cout << endl;
     }

@@ -179,7 +179,6 @@ class Grafo2 {
          * Matriz de capacidades do grafo
          */
         vector<vector <int>> cap;
-        vector<vector <int>> cap_safe_copy;
         /**
          * Lista de caminhos do grafo
          */

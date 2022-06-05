@@ -89,17 +89,13 @@ public:
      * Devolve o tamanho do grafo
      * @return tamanho do grafo
      */
-    int getSize() const {
-        return (int)paragens.size();
-    }
+    int getSize() const {return (int)paragens.size();}
     /**
      * Verifica se um nó (local) tem nós (locais) adjacentes
      * @param num nó (local) a verificar
      * @return 1 se num não tiver nós (locais) adjacentes e 0 caso contrário
      */
-    int isEmpty(int num) const {
-        return paragens[num].adj.empty();
-    }
+    int isEmpty(int num) const {return paragens[num].adj.empty();}
     /**
      * Adiciona uma aresta (viagem) ao grafo
      * @param src nó (local) de origem da aresta (viagem)
@@ -109,19 +105,10 @@ public:
      */
     void addAresta(int src, int dest, int capacidade, int duracao);
     /**
-     * Imprime o grafo
-     */
-    void print();
-    /**
      * Faz uma pesquisa do tipo Depth-First
      * @param id identificador do nó atual (local)
      */
     void dfs(int id);
-    /**
-     * Faz uma pesquisa do tipo Breadth-First
-     * @param id identificador do nó atual (local)
-     */
-    void bfs(int id);
     /**
      * Determina qual o caminho entre dois locais (src e dest) que minimiza o número de transbordos.
      * @param src nó (local) de origem
@@ -146,14 +133,14 @@ public:
      * @param dest nó (local) de destino
      * @return lista com os nós (locais) constituintes do caminho
      */
-    list<int> outputCaminhoMaxC(int dest);
+    void printCaminhoMaxC(int dest);
     /**
      * Escreve o caminho gerado para minimizar o número de transbordos
      * @param src nó (local) de origem
      * @param dest nó (local) de destino
      * @return lista com os nós (locais) constituintes do caminho
      */
-    list<int> outputCaminhoMinT(int src, int dest);
+    void printCaminhoMinT(int src, int dest);
     /**
      * Determina a duração miníma da viagem entre os locais src e dest
      * @param src nó (local) de origem
@@ -228,7 +215,7 @@ class Grafo2 {
          * Devolve a lista dos caminhos do grafo
          * @return lista de caminhos encontrados
          */
-        list<list<int>> outputCaminhoMaxC(){return paths;}
+        void printCaminhoMaxC();
         /**
          * Gera um caminho ou vários entre src e dest
          * para uma determinada dimensão de um grupo

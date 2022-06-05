@@ -15,17 +15,6 @@ Grafo::Grafo(int n) : n(n),
 
 }
 
-void Grafo::print(){
-    for(int i=0; i<paragens.size(); i++){
-        printf("%d:{", i);
-        for(auto it = paragens[i].adj.begin(); it != paragens[i].adj.end(); it++){
-            if(std::next(it) == paragens[i].adj.end()) printf("%d", it->destino);
-            else printf("%d,", it->destino);
-        }
-        printf("}\n");
-    }
-}
-
 void Grafo::addParagem(int num){
     Node paragem;
     paragem.pai = 0;
@@ -48,25 +37,6 @@ void Grafo::dfs(int id) {
         int w = e.destino;
         if (!paragens[w].visited)
             dfs(w);
-    }
-}
-
-// Breadth-First Search: example implementation
-void Grafo::bfs(int id) {
-    for (int v=1; v<=n; v++) paragens[v].visited = false;
-    queue<int> q; // queue of unvisited paragens
-    q.push(id);
-    paragens[id]. visited = true;
-    while (!q.empty()) { // while there are still unvisited paragens
-        int u = q.front(); q.pop();
-        cout << u << " "; // show node order
-        for (auto e : paragens[u].adj) {
-            int w = e.destino;
-            if (!paragens[w].visited) {
-                q.push(w);
-                paragens[w].visited = true;
-            }
-        }
     }
 }
 
@@ -163,7 +133,7 @@ int Grafo::getDuracaoMinima(int origem, int destino) {
     return dur_min;
 }
 
-list<int> Grafo::outputCaminhoMaxC(int dest) {
+void Grafo::printCaminhoMaxC(int dest){
     list<int> path;
     int u = dest;
     while(u != 0){
@@ -171,12 +141,15 @@ list<int> Grafo::outputCaminhoMaxC(int dest) {
         u = paragens[u].pai;
     }
     path.reverse();
-    return path;
+    cout << "O caminho encontrado foi o seguinte: " << endl;
+    for(auto it = path.begin(); it != path.end(); it++){
+        if(next(it) == path.end()) printf("%d\n", *it);
+        else printf("%d -> ", *it);
+    }
 }
 
-list<int> Grafo::outputCaminhoMinT(int src, int dest) {
+void Grafo::printCaminhoMinT(int src, int dest){
     list<int> path;
-    minimizarTransbordos(src, dest);
     path.push_front(dest);
     do{
         if(paragens[dest].pai == dest) {
@@ -186,7 +159,10 @@ list<int> Grafo::outputCaminhoMinT(int src, int dest) {
         dest = paragens[dest].pai;
         path.push_front(dest);
     } while(dest != src);
-    return path;
+    for (auto it = path.begin(); it!=path.end(); it++) {
+        if(next(it) == path.end()) cout << *it;
+        else cout << *it << " -> ";
+    }
 }
 
 int Grafo::getEsperaMaxima(int origem, int destino) {
@@ -291,8 +267,47 @@ int Grafo2::maximizarDimensaoGrupoSeparado(int src, int dest) {
     return flow;
 }
 
+void Grafo2::printCaminhoMaxC(){
+    auto cap = caps.begin();
+    for (auto caminho = paths.begin(); caminho != paths.end(); caminho++, cap++) {
+        caminho->reverse();
+        for (auto it = caminho->begin(); it != caminho->end(); it++) {
+            if (next(it) == caminho->end()) cout << *it;
+            else cout << *it << " -> ";
+        }
+        cout << " com " << *cap <<" de capacidade";
+        cout << endl;
+    }
+    cout << endl;
+}
+
 bool Grafo2::encaminhamento(int src, int dest, int size) {
     int maxDimensao = maximizarDimensaoGrupoSeparado(src, dest);
-    if(maxDimensao < size) return false;
+    if(maxDimensao < size) {
+        if(size == 0){
+            cout << "Dimensão do grupo inválida" << endl;
+            return false;
+        }
+        cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
+        return false;
+    }
+    printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
+    int actualDim=size, index=0;
+    auto it = paths.begin();
+    for(auto it2 = caps.begin(); it2 != caps.end() && actualDim > 0; it++, it2++, index++){
+        if(actualDim - *it2 >= 0){
+            actualDim-=*it2;
+            printf("%d/%d: ", *it2, *it2);
+        }else{
+            printf("%d/%d: ", actualDim, *it2);
+            actualDim = 0;
+        }
+        it->reverse();
+        for(auto it3 = it->begin(); it3 != it->end(); it3++){
+            if(next(it3) == it->end()) cout << *it3;
+            else cout << *it3 << " -> ";
+        }
+        cout << "\n";
+    }
     return true;
 }

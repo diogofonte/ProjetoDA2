@@ -85,36 +85,22 @@ void Menu::executeOne1(int num_ficheiro, int origem, int destino){
     int capacidade = grafo.maximizarDimensaoGrupo(origem, destino);
     if(capacidade == 0) cout << "Percurso não disponível!" << endl;
     else{
-        cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " passageiros." << endl
-             << "O caminho encontrado foi o seguinte: ";
-        list<int> caminho = grafo.outputCaminhoMaxC(destino);
-        for(auto it = caminho.begin(); it != caminho.end(); it++){
-            if(next(it) == caminho.end()) printf("%d\n", *it);
-            else printf("%d -> ", *it);
-        }
+        cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " passageiros." << endl;
+        grafo.printCaminhoMaxC(destino);
     }
     LoadData loadData;
     grafo = loadData.loadGrafo(num_ficheiro);
 }
 
 void Menu::executeOne2(int num_ficheiro, int origem, int destino){
-    //mostrar caminho que maximiza a dimensão
-    cout << "Caminho com maior capacidade: ";
-    list<int> caminhoMaxC = grafo.outputCaminhoMaxC(destino);
-    for(auto it = caminhoMaxC.begin(); it != caminhoMaxC.end(); it++){
-        if(next(it) == caminhoMaxC.end()) printf("%d\n", *it);
-        else printf("%d -> ", *it);
+    executeOne1(num_ficheiro, origem, destino);
+    int numTransbordos = grafo.minimizarTransbordos(origem, destino);
+    if(numTransbordos != 0){
+        if(numTransbordos % 2 == 0)numTransbordos/=2;
+        else numTransbordos = numTransbordos/2 + 1;
+        cout << "Para o percurso selecionado, o menor caminho tem " << numTransbordos << " transbordos." << endl;
+        grafo.printCaminhoMinT(origem, destino);
     }
-
-    //mostrar caminho que minimiza os transbordos
-    cout << "Caminho com menos transbordos: ";
-    list<int> caminhoMinT = grafo.outputCaminhoMinT(origem, destino);
-    for (auto it = caminhoMinT.begin(); it!=caminhoMinT.end(); it++) {
-       if(next(it) == caminhoMinT.end()) cout << *it;
-       else cout << *it << " -> ";
-    }
-    cout << endl;
-
     LoadData loadData;
     grafo = loadData.loadGrafo(num_ficheiro);
 }
@@ -156,55 +142,22 @@ void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
     cout << "Insira a dimensão do grupo: ";
     cin >> dimensao;
     cout << endl;
-    if(dimensao <= 0){
-        cout << "Dimensão do grupo inválida" << endl;
-        return;
-    }
-    bool maxDim = grafo2.encaminhamento(origem, destino, dimensao);
-    if(!maxDim){
-        cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
-        return;
-    }else{
-        list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
-        list<int> caps = grafo2.getCaps();
-        printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
-        int actualDim=dimensao, index=0;
-        auto it = caminhos.begin();
-        for(auto it2 = caps.begin(); it2 != caps.end() && actualDim > 0; it++, it2++, index++){
-            if(actualDim - *it2 >= 0){
-                actualDim-=*it2;
-                printf("%d/%d: ", *it2, *it2);
-            }else{
-                printf("%d/%d: ", actualDim, *it2);
-                actualDim = 0;
-            }
-            it->reverse();
-            for(auto it3 = it->begin(); it3 != it->end(); it3++){
-                if(next(it3) == it->end()) cout << *it3;
-                else cout << *it3 << " -> ";
-            }
-            cout << "\n";
-        }
-    }
+
+    grafo2.encaminhamento(origem, destino, dimensao);
+
     LoadData loadData;
     grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
 void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
+    LoadData loadData;
     // parte do 2.1
     int dimensao;
     cout << "Insira a dimensão do grupo: ";
     cin >> dimensao;
     cout << endl;
-    if(dimensao <= 0){
-        cout << "Dimensão do grupo inválida" << endl;
-        return;
-    }
-    bool maxDim = grafo2.encaminhamento(origem, destino, dimensao);
-    if(!maxDim){
-        cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
-        return;
-    }
+
+    grafo2.encaminhamento(origem, destino, dimensao);
     // fim da execução da parte da primeira dimensão
 
     // início da parte com novos passageiros
@@ -215,14 +168,11 @@ void Menu::executeTwo2(int num_ficheiro, int origem, int destino){
     if(incremento <= 0){
         cout << "Incremento do grupo inválido" << endl;
         return;
-    }
-    bool maxDim2 = grafo2.encaminhamento(origem, destino, dimensao + incremento);
-    if(!maxDim2){
-        cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
-        return;
+    }else{
+        grafo2 = loadData.loadGrafo2(num_ficheiro);
+        grafo2.encaminhamento(origem, destino, dimensao + incremento);
     }
 
-    LoadData loadData;
     grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
@@ -231,19 +181,7 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
     if(capacidade == 0) cout << "Percurso não disponível!" << endl;
     else {
         cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
-        list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
-        list<int> capacidades = grafo2.getCaps();
-        auto cap = capacidades.begin();
-        for (auto caminho = caminhos.begin(); caminho != caminhos.end(); caminho++, cap++) {
-            caminho->reverse();
-            for (auto it = caminho->begin(); it != caminho->end(); it++) {
-                if (next(it) == caminho->end()) cout << *it;
-                else cout << *it << " -> ";
-            }
-            cout << " com " << *cap <<" de capacidade";
-            cout << endl;
-        }
-        cout << endl;
+        grafo2.printCaminhoMaxC();
     }
 
     LoadData loadData;

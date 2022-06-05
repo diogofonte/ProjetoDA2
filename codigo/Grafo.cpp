@@ -122,7 +122,7 @@ int Grafo::minimizarTransbordos(int src, int dest) {
     else return paragens[dest].dist;
 }
 
-int Grafo::getDuracaoMinima(int src, int dest) {
+int Grafo::getDuracaoMinima(int origem, int destino) {
     for (auto p: paragens) {
         p.es = 0;
         p.pai = 0;
@@ -186,6 +186,32 @@ list<int> Grafo::outputCaminhoMinT(int src, int dest) {
         path.push_front(dest);
     } while(dest != src);
     return path;
+}
+
+int Grafo::getEsperaMaxima(int origem, int destino) {
+    int es = getDuracaoMinima(origem, destino);
+    int espera_max = INT_MIN;
+    vector<int> caminho;
+
+    vector<int> esperas(getSize()+1,0);
+    for(int i = 1; i <= getSize(); i++){
+        for (auto e : paragens[i].adj) {
+            int max = paragens[e.destino].es - paragens[i].es - e.duracao;
+            if(esperas[e.destino] < max)
+                esperas[e.destino] = max;
+        }
+    }
+
+    for(int e : esperas){
+        if(espera_max < e)
+            espera_max = e;
+    }
+    for(int i = 1; i <= esperas.size(); i++) {
+        if (esperas[i] == espera_max) {
+            caminho.push_back(i);
+        }
+    }
+    return espera_max;
 }
 
 //-------------------- Grafo 2 -------------------------//

@@ -171,11 +171,11 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
 }
 
 void Menu::executeTwo4(int num_ficheiro, int origem, int destino){
-
+    cout << grafo.getDuracaoMinima(origem, destino) << endl;
 }
 
 void Menu::executeTwo5(int num_ficheiro, int origem, int destino){
-
+    cout << grafo.getEsperaMaxima(origem, destino) << endl;
 }
 
 void Menu::menu2(int num_ficheiro) {

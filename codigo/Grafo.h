@@ -160,7 +160,8 @@ public:
      * @param dest nó (local) de destino
      * @return duração miníma da viagem entre os dois locais
      */
-    int getDuracaoMinima(int src, int dest);
+    int getDuracaoMinima(int origem, int destino);
+    int getEsperaMaxima(int origem, int destino);
 };
 
 //classe grafo para cenário 2

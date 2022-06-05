@@ -168,28 +168,22 @@ void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
         list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
         list<int> caps = grafo2.getCaps();
         printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
-        int actual_size = dimensao, index = 0;
-        for(auto it = caps.begin(); it != caps.end(); it++, index++){
-            actual_size -= *it;
-            int qnt_pessoas;
-            if(actual_size < 0){
-                qnt_pessoas = *it + actual_size;
+        int actualDim=dimensao, index=0;
+        auto it = caminhos.begin();
+        for(auto it2 = caps.begin(); it2 != caps.end() && actualDim > 0; it++, it2++, index++){
+            if(actualDim - *it2 >= 0){
+                actualDim-=*it2;
+                printf("%d/%d: ", *it2, *it2);
             }else{
-                qnt_pessoas = *it;
+                printf("%d/%d: ", actualDim, *it2);
+                actualDim = 0;
             }
-            printf("%d/%d: ", qnt_pessoas, *it);
-            int j = 0;
-            for(auto it : caminhos){
-                if(j == index){
-                    it.reverse();
-                    for (auto it2 = it.begin(); it2 != it.end(); it2++) {
-                        if (next(it2) == it.end()) cout << *it2;
-                        else cout << *it2 << " -> ";
-                    }
-                    printf("\n");
-                }
-                j++;
+            it->reverse();
+            for(auto it3 = it->begin(); it3 != it->end(); it3++){
+                if(next(it3) == it->end()) cout << *it3;
+                else cout << *it3 << " -> ";
             }
+            cout << "\n";
         }
     }
     LoadData loadData;

@@ -144,39 +144,39 @@ list<int> Grafo::caminhoMinT(int src, int dest) {
 }
 
 int Grafo::getDuracaoMinima(int src, int dest) {
-    for (auto p: paragens) {
-        p.es = 0;
-        p.pai = 0;
-        p.grau = 0;
-    }
-
-    for (auto p: paragens) {
-        for (auto e: p.adj) {
-            paragens[e.destino].grau += 1;
-        }
+    int es[n];
+    int grau[n];
+    for (int i = 0; i < n + 1; i++) {
+        paragens[i].visited = false;
+        es[i] = 0;
+        grau[i] = 0;
     }
 
     queue<int> s;
-    int dur_min = -1, vf = 0;
-    for (int i = 0; i < paragens.size(); i++)
-        if (paragens[i].grau == 0)
-            s.push(i);
-
+    s.push(src);
+    paragens[src].visited = true;
+    int dur_min = -1;
     while (s.size() > 0) {
         int v = s.front();
         s.pop();
-        if (dur_min < paragens[v].es) {
-            dur_min = paragens[v].es;
-            vf = v;
+        if (dur_min < es[v]) {
+            dur_min = es[v];
         }
-        for (auto w: paragens[v].adj) {
-            if (paragens[w.destino].es < paragens[v].es + w.duracao) {
-                paragens[w.destino].es = paragens[v].es + w.duracao;
-                paragens[w.destino].pai = v;
+        for (auto e: paragens[v].adj) {
+            if (!paragens[e.destino].visited) {
+                paragens[e.destino].visited = true;
+                s.push(e.destino);
+                grau[e.destino]++;
+                es[e.destino] = es[v] + e.duracao;
             }
-            paragens[w.destino].grau -= 1;
-            if (paragens[w.destino].grau == 0)
-                s.push(w.destino);
+            int duracao = e.duracao;
+            if (es[e.destino] < es[v] + duracao) {
+                es[e.destino] = es[v] + duracao;
+                paragens[e.destino].pai = v;
+            }
+            grau[e.destino]--;
+            if (grau[e.destino] == 0)
+                s.push(e.destino);
         }
     }
 
@@ -184,7 +184,7 @@ int Grafo::getDuracaoMinima(int src, int dest) {
 }
 
 int Grafo::getEsperaMaxima(int src, int dest) {
-    int es = getDuracaoMinima(src, dest);
+    /*int es = getDuracaoMinima(src, dest);
     int espera_max = INT_MIN;
     vector<int> caminho;
     vector<int> esperas(getSize()+1,0);

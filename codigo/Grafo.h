@@ -162,6 +162,7 @@ public:
      * @return duração miníma da viagem entre os dois locais
      */
     int getDuracaoMinima(int src, int dest);
+    int getEsperaMaxima(int src, int dest);
 };
 
 //classe grafo para cenário 2
@@ -235,7 +236,9 @@ class Grafo2 {
          * Devolve a lista dos caminhos do grafo
          * @return lista de caminhos encontrados
          */
-        list<list<int>> outputCaminhoMaxC(){return paths;}
+        list<list<int>> caminhoMaxC(){
+            return paths;
+        }
         /**
          * Gera um caminho ou vários entre src e dest
          * para uma determinada dimensão de um grupo
@@ -247,4 +250,4 @@ class Grafo2 {
         bool encaminhamento(int src, int dest, int size);
 };
 
-#endif //PROJETODA2_GRAFO_H
+#endif PROJETODA2_GRAFO_H

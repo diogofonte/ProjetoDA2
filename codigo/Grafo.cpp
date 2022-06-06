@@ -116,6 +116,33 @@ int Grafo::minimizarTransbordos(int src, int dest) {
     else return paragens[dest].dist;
 }
 
+list<int> Grafo::caminhoMaxC(int src, int dest) {
+    list<int> path;
+    maximizarDimensaoGrupo(src,dest);
+    int u = dest;
+    while(u != 0){
+        path.push_back(u);
+        u = paragens[u].pai;
+    }
+    path.reverse();
+    return path;
+}
+
+list<int> Grafo::caminhoMinT(int src, int dest) {
+    list<int> path;
+    minimizarTransbordos(src, dest);
+    path.push_front(dest);
+    do{
+        if(paragens[dest].pai == dest) {
+            path.clear();
+            break;
+        }
+        dest = paragens[dest].pai;
+        path.push_front(dest);
+    } while(dest != src);
+    return path;
+}
+
 int Grafo::getDuracaoMinima(int src, int dest) {
     for (auto p: paragens) {
         p.es = 0;
@@ -156,31 +183,28 @@ int Grafo::getDuracaoMinima(int src, int dest) {
     return dur_min;
 }
 
-list<int> Grafo::caminhoMaxC(int src, int dest) {
-    list<int> path;
-    maximizarDimensaoGrupo(src,dest);
-    int u = dest;
-    while(u != 0){
-        path.push_back(u);
-        u = paragens[u].pai;
-    }
-    path.reverse();
-    return path;
-}
-
-list<int> Grafo::caminhoMinT(int src, int dest) {
-    list<int> path;
-    minimizarTransbordos(src, dest);
-    path.push_front(dest);
-    do{
-        if(paragens[dest].pai == dest) {
-            path.clear();
-            break;
+int Grafo::getEsperaMaxima(int src, int dest) {
+    int es = getDuracaoMinima(src, dest);
+    int espera_max = INT_MIN;
+    vector<int> caminho;
+    vector<int> esperas(getSize()+1,0);
+    for(int i = 1; i <= getSize(); i++){
+        for (auto e : paragens[i].adj) {
+            int max = paragens[e.destino].es - paragens[i].es - e.duracao;
+            if(esperas[e.destino] < max)
+                esperas[e.destino] = max;
         }
-        dest = paragens[dest].pai;
-        path.push_front(dest);
-    } while(dest != src);
-    return path;
+    }
+    for(int e : esperas){
+        if(espera_max < e)
+            espera_max = e;
+    }
+    for(int i = 1; i <= esperas.size(); i++) {
+        if (esperas[i] == espera_max) {
+            caminho.push_back(i);
+        }
+    }
+    return espera_max;
 }
 
 //-------------------- Grafo 2 -------------------------//

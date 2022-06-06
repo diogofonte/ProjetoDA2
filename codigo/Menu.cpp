@@ -218,22 +218,18 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
         cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
         list<list<int>> caminhos = grafo2.getCaminhos();
         cout << "Caminhos: " << endl;
-        int i = 1;
+
+        list<int> capacidades = grafo2.getCaps();
+        auto itrCaps = capacidades.begin();
+
         for (auto caminho: caminhos) {
-            cout << i << ") ";
             caminho.reverse();
-            for (auto it = caminho.begin(); it != caminho.end(); it++) {
-                if (next(it) == caminho.end()) cout << *it;
-                else cout << *it << " -> ";
+            for (auto itrCam = caminho.begin() ; itrCam != caminho.end() ; itrCam++){
+                if (next(itrCam) == caminho.end()) cout << *itrCam;
+                else cout << *itrCam << " -> ";
             }
-            cout << endl;
-            i++;
-        }
-        cout << "Capacidades: " << endl;
-        i = 1;
-        for(auto it : grafo2.getCaps()){
-            cout << i << ") " << it << endl;
-            i++;
+            cout << " (capacidade: " << *itrCaps << ")" << endl;
+            itrCaps++;
         }
     }
 

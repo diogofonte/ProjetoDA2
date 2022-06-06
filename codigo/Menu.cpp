@@ -89,8 +89,8 @@ void Menu::executeOne1(int num_ficheiro, int origem, int destino){
              << "O caminho encontrado foi o seguinte: ";
         list<int> caminho = grafo.caminhoMaxC(origem, destino);
         for(auto it = caminho.begin(); it != caminho.end(); it++){
-            if(next(it) == caminho.end()) printf("%d\n", *it);
-            else printf("%d -> ", *it);
+            if(next(it) == caminho.end()) cout << *it << endl;
+            else cout << *it << " -> ";
         }
     }
     LoadData loadData;
@@ -102,8 +102,8 @@ void Menu::executeOne2(int num_ficheiro, int origem, int destino){
     cout << "Caminho com maior capacidade: ";
     list<int> caminhoMaxC = grafo.caminhoMaxC(origem, destino);
     for(auto it = caminhoMaxC.begin(); it != caminhoMaxC.end(); it++){
-        if(next(it) == caminhoMaxC.end()) printf("%d\n", *it);
-        else printf("%d -> ", *it);
+        if(next(it) == caminhoMaxC.end()) cout << *it << endl;
+        else cout << *it << " -> ";
     }
 
     //mostrar caminho que minimiza os transbordos

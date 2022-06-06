@@ -4,6 +4,8 @@
 #include <queue>
 #include <climits>
 
+#include <chrono>
+
 Grafo::Grafo() {}
 
 Grafo::Grafo(int n) : n(n),
@@ -13,12 +15,12 @@ Grafo::Grafo(int n) : n(n),
 
 void Grafo::print(){
     for(int i=0; i<paragens.size(); i++){
-        printf("%d:{", i);
+        cout << i << ":{";
         for(auto it = paragens[i].adj.begin(); it != paragens[i].adj.end(); it++){
-            if(std::next(it) == paragens[i].adj.end()) printf("%d", it->destino);
-            else printf("%d,", it->destino);
+            if(std::next(it) == paragens[i].adj.end()) cout << it->destino;
+            else cout << it->destino << ", ";
         }
-        printf("}\n");
+        cout << "}" << endl;
     }
 }
 
@@ -290,7 +292,7 @@ int Grafo2::maximizarDimensaoGrupoSeparado(int src, int dest) {
 bool Grafo2::encaminhamento(int src, int dest, int size) {
     int maxDimensao = maximizarDimensaoGrupoSeparado(src, dest);
     if(maxDimensao < size) return false;
-    printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: \n");
+    cout << "Quantidade de pessoas no caminho/capacidade máxima do caminho:" << endl;
     bool visited[caps.size()];
     int actual_size = size;
     while(actual_size > 0){
@@ -310,7 +312,7 @@ bool Grafo2::encaminhamento(int src, int dest, int size) {
         }else{
             qntPessoas = max;
         }
-        printf("%d/%d: ", qntPessoas, max);
+        cout << qntPessoas << "/" << max << ": ";
         int j=0;
         for(auto it : paths){
             if(j == maxIndex){
@@ -319,7 +321,7 @@ bool Grafo2::encaminhamento(int src, int dest, int size) {
                     if (next(it2) == it.end()) cout << *it2;
                     else cout << *it2 << " -> ";
                 }
-                printf("\n");
+                cout << endl;
             }
             j++;
         }

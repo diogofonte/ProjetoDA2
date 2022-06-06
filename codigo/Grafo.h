@@ -195,7 +195,7 @@ class Grafo2 {
          */
         list<list<int>> paths;
         /**
-         * Lista com capacidades ordenadas por índice
+         * Lista das capacidades dos caminhos ordenadas por índice como em paths
          */
         list<int> caps;
     public:
@@ -209,8 +209,8 @@ class Grafo2 {
          */
         Grafo2(int nodes);
         /**
-         * Devolve a lista de capacidades
-         * @return lista de capacidades
+         * Devolve a lista de capacidades dos caminhos ordenadas por índice como em paths
+         * @return lista de capacidades dos caminhos
          */
         list<int> getCaps(){
             return caps;

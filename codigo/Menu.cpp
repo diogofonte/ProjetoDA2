@@ -164,28 +164,8 @@ void Menu::executeTwo1(int num_ficheiro, int origem, int destino){
     if(!maxDim){
         cout << "Caminho(s) nao encontrado ou caminho(s) sem fluxo maximo >= a dimensao do grupo" << endl;
         return;
-    }else{
-        list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
-        list<int> caps = grafo2.getCaps();
-        printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
-        int actualDim=dimensao, index=0;
-        auto it = caminhos.begin();
-        for(auto it2 = caps.begin(); it2 != caps.end() && actualDim > 0; it++, it2++, index++){
-            if(actualDim - *it2 >= 0){
-                actualDim-=*it2;
-                printf("%d/%d: ", *it2, *it2);
-            }else{
-                printf("%d/%d: ", actualDim, *it2);
-                actualDim = 0;
-            }
-            it->reverse();
-            for(auto it3 = it->begin(); it3 != it->end(); it3++){
-                if(next(it3) == it->end()) cout << *it3;
-                else cout << *it3 << " -> ";
-            }
-            cout << "\n";
-        }
     }
+
     LoadData loadData;
     grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
@@ -232,16 +212,16 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
     else {
         cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
         list<list<int>> caminhos = grafo2.outputCaminhoMaxC();
-        list<int> capacidades = grafo2.getCaps();
-        auto cap = capacidades.begin();
-        for (auto caminho = caminhos.begin(); caminho != caminhos.end(); caminho++, cap++) {
-            caminho->reverse();
-            for (auto it = caminho->begin(); it != caminho->end(); it++) {
-                if (next(it) == caminho->end()) cout << *it;
+        for (auto caminho: caminhos) {
+            caminho.reverse();
+            for (auto it = caminho.begin(); it != caminho.end(); it++) {
+                if (next(it) == caminho.end()) cout << *it;
                 else cout << *it << " -> ";
             }
-            cout << " com " << *cap <<" de capacidade";
             cout << endl;
+        }
+        for(auto it : grafo2.getCaps()){
+            printf("%d ", it);
         }
         cout << endl;
     }
@@ -251,13 +231,15 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
 }
 
 void Menu::executeTwo4(int num_ficheiro, int origem, int destino){
-    cout << grafo.getDuracaoMinima(origem, destino) << endl;
+
+
     LoadData loadData;
     grafo2 = loadData.loadGrafo2(num_ficheiro);
 }
 
 void Menu::executeTwo5(int num_ficheiro, int origem, int destino){
-    cout << grafo.getEsperaMaxima(origem, destino) << endl;
+
+
     LoadData loadData;
     grafo2 = loadData.loadGrafo2(num_ficheiro);
 }

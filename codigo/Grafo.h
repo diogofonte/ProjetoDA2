@@ -160,8 +160,7 @@ public:
      * @param dest nó (local) de destino
      * @return duração miníma da viagem entre os dois locais
      */
-    int getDuracaoMinima(int origem, int destino);
-    int getEsperaMaxima(int origem, int destino);
+    int getDuracaoMinima(int src, int dest);
 };
 
 //classe grafo para cenário 2
@@ -179,6 +178,7 @@ class Grafo2 {
          * Matriz de capacidades do grafo
          */
         vector<vector <int>> cap;
+        vector<vector <int>> cap_safe_copy;
         /**
          * Lista de caminhos do grafo
          */

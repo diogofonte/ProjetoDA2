@@ -186,63 +186,6 @@ int Grafo::getDuracaoMinima(int src, int dest) {
 }
 
 int Grafo::getEsperaMaxima(int src, int dest) {
-    /*int es[n];
-    int grau[n];
-    for (int i = 0; i < n + 1; i++) {
-        paragens[i].visited = false;
-        es[i] = 0;
-        grau[i] = 0;
-    }
-    queue<int> s;
-    s.push(src);
-    paragens[src].visited = true;
-    int dur_min = -1;
-    while (s.size() > 0) {
-        int v = s.front();
-        s.pop();
-        if (dur_min < es[v]) {
-            dur_min = es[v];
-        }
-        for (auto e: paragens[v].adj) {
-            if (!paragens[e.destino].visited) {
-                paragens[e.destino].visited = true;
-                s.push(e.destino);
-                grau[e.destino]++;
-                es[e.destino] = es[v] + e.duracao;
-            }
-            int duracao = e.duracao;
-            if (es[e.destino] < es[v] + duracao) {
-                es[e.destino] = es[v] + duracao;
-                paragens[e.destino].pai = v;
-            }
-            grau[e.destino]--;
-            if (grau[e.destino] == 0)
-                s.push(e.destino);
-        }
-    }
-
-    int espera_max = INT_MIN;
-    vector<int> caminho;
-    vector<int> esperas(getSize()+1,0);
-    for(int i = 1; i <= getSize(); i++){
-        for (auto e : paragens[i].adj) {
-            int max = es[e.destino] - es[i] - e.duracao;
-            if(esperas[e.destino] < max)
-                esperas[e.destino] = max;
-        }
-    }
-    for(int e : esperas){
-        if(espera_max < e)
-            espera_max = e;
-    }
-    for(int i = 1; i <= esperas.size(); i++) {
-        if (esperas[i] == espera_max) {
-            caminho.push_back(i);
-        }
-    }
-
-    return espera_max;*/
-
     int es[n];
     int grau[n];
     for (int i = 0; i < n + 1; i++) {
@@ -279,20 +222,19 @@ int Grafo::getEsperaMaxima(int src, int dest) {
         }
     }
 
-    vector<int> stations;
-    vector<int> wait(paragens.size(),0);
+    vector<int> esperas(paragens.size(),0);
 
     for(int i = 1; i < paragens.size(); i++){
         for (auto edge : paragens[i].adj){
             int maximumDur = es[edge.destino] - es[i] - edge.duracao;
-            wait[edge.destino] = max(wait[edge.destino], maximumDur);
+            esperas[edge.destino] = max(esperas[edge.destino], maximumDur);
         }
     }
-    int maxWait = INT_MIN;
-    for(auto i : wait){
-        maxWait = max(maxWait, i);
+    int espera_max = INT_MIN;
+    for(auto i : esperas){
+        espera_max = max(espera_max, i);
     }
-    return maxWait;
+    return espera_max;
 }
 
 //-------------------- Grafo 2 -------------------------//

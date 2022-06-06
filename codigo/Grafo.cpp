@@ -163,8 +163,9 @@ int Grafo::getDuracaoMinima(int src, int dest) {
     return dur_min;
 }
 
-list<int> Grafo::outputCaminhoMaxC(int dest) {
+list<int> Grafo::caminhoMaxC(int src, int dest) {
     list<int> path;
+    maximizarDimensaoGrupo(src,dest);
     int u = dest;
     while(u != 0){
         path.push_back(u);
@@ -174,7 +175,7 @@ list<int> Grafo::outputCaminhoMaxC(int dest) {
     return path;
 }
 
-list<int> Grafo::outputCaminhoMinT(int src, int dest) {
+list<int> Grafo::caminhoMinT(int src, int dest) {
     list<int> path;
     minimizarTransbordos(src, dest);
     path.push_front(dest);

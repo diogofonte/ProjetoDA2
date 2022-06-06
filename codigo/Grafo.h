@@ -143,17 +143,18 @@ public:
     int maximizarDimensaoGrupo(int src, int dest);
     /**
      * Escreve o caminho gerado para maximizar a capacidade do grupo
+     * @param src nó (local) de origem
      * @param dest nó (local) de destino
      * @return lista com os nós (locais) constituintes do caminho
      */
-    list<int> outputCaminhoMaxC(int dest);
+    list<int> caminhoMaxC(int src, int dest);
     /**
      * Escreve o caminho gerado para minimizar o número de transbordos
      * @param src nó (local) de origem
      * @param dest nó (local) de destino
      * @return lista com os nós (locais) constituintes do caminho
      */
-    list<int> outputCaminhoMinT(int src, int dest);
+    list<int> caminhoMinT(int src, int dest);
     /**
      * Determina a duração miníma da viagem entre os locais src e dest
      * @param src nó (local) de origem

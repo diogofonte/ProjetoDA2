@@ -87,7 +87,7 @@ void Menu::executeOne1(int num_ficheiro, int origem, int destino){
     else{
         cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " passageiros." << endl
              << "O caminho encontrado foi o seguinte: ";
-        list<int> caminho = grafo.outputCaminhoMaxC(destino);
+        list<int> caminho = grafo.caminhoMaxC(origem, destino);
         for(auto it = caminho.begin(); it != caminho.end(); it++){
             if(next(it) == caminho.end()) printf("%d\n", *it);
             else printf("%d -> ", *it);
@@ -100,7 +100,7 @@ void Menu::executeOne1(int num_ficheiro, int origem, int destino){
 void Menu::executeOne2(int num_ficheiro, int origem, int destino){
     //mostrar caminho que maximiza a dimensão
     cout << "Caminho com maior capacidade: ";
-    list<int> caminhoMaxC = grafo.outputCaminhoMaxC(destino);
+    list<int> caminhoMaxC = grafo.caminhoMaxC(origem, destino);
     for(auto it = caminhoMaxC.begin(); it != caminhoMaxC.end(); it++){
         if(next(it) == caminhoMaxC.end()) printf("%d\n", *it);
         else printf("%d -> ", *it);
@@ -108,7 +108,7 @@ void Menu::executeOne2(int num_ficheiro, int origem, int destino){
 
     //mostrar caminho que minimiza os transbordos
     cout << "Caminho com menos transbordos: ";
-    list<int> caminhoMinT = grafo.outputCaminhoMinT(origem, destino);
+    list<int> caminhoMinT = grafo.caminhoMinT(origem, destino);
     for (auto it = caminhoMinT.begin(); it!=caminhoMinT.end(); it++) {
        if(next(it) == caminhoMinT.end()) cout << *it;
        else cout << *it << " -> ";

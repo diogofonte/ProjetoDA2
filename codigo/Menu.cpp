@@ -126,6 +126,11 @@ void Menu::menu1(int num_ficheiro) {
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 2);
 
+    if(option == 0) {
+        cout << "OPERAÇÃO TERMINADA COM SUCESSO";
+        exit(0);
+    }
+
     int origem, destino;
     cout << "Insira um ponto de partida válido: ";
     cin >> origem;
@@ -259,6 +264,11 @@ void Menu::menu2(int num_ficheiro) {
     cout << "0. Sair." << endl;
     cout << "\nESCOLHA UMA OPÇÃO:";
     readOption(0, 5);
+
+    if(option == 0) {
+        cout << "OPERAÇÃO TERMINADA COM SUCESSO";
+        exit(0);
+    }
 
     int origem, destino;
     cout << "Insira um ponto de partida válido: ";

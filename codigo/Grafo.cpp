@@ -290,7 +290,7 @@ int Grafo2::maximizarDimensaoGrupoSeparado(int src, int dest) {
 bool Grafo2::encaminhamento(int src, int dest, int size) {
     int maxDimensao = maximizarDimensaoGrupoSeparado(src, dest);
     if(maxDimensao < size) return false;
-    printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: caminho\n");
+    printf("Quantidade de pessoas no caminho/capacidade máxima do caminho: \n");
     bool visited[caps.size()];
     int actual_size = size;
     while(actual_size > 0){

@@ -250,4 +250,4 @@ class Grafo2 {
         bool encaminhamento(int src, int dest, int size);
 };
 
-#endif PROJETODA2_GRAFO_H
+#endif //PROJETODA2_GRAFO_H

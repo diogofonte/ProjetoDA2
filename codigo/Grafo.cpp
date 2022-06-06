@@ -1,12 +1,8 @@
 #include "Grafo.h"
-#include "MaxHeap.h"
 #include "MinHeap.h"
-
 #include <iostream>
 #include <queue>
 #include <climits>
-//#include <iomanip>
-//#include <bits/stdc++.h>
 
 Grafo::Grafo() {}
 
@@ -34,15 +30,13 @@ void Grafo::addParagem(int num){
     paragens[num]=paragem;
 }
 
-// Add edge from source to destinoination with a certain capacity and duration
 void Grafo::addAresta(int src, int dest, int capacidade, int duracao) {
     if (src<1 || src>n || dest < 1 || dest > n) return;
     paragens[src].adj.push_back({dest, capacidade, duracao});
 }
 
-// Depth-First Search: example implementation
 void Grafo::dfs(int id) {
-    cout << id << " "; // show node order
+    cout << id << " ";
     paragens[id].visited = true;
     for (auto e : paragens[id].adj) {
         int w = e.destino;
@@ -51,19 +45,18 @@ void Grafo::dfs(int id) {
     }
 }
 
-// Breadth-First Search: example implementation
 void Grafo::bfs(int id) {
     for (int v=1; v<=n; v++) paragens[v].visited = false;
-    queue<int> q; // queue of unvisited paragens
-    q.push(id);
+    queue<int> unvisited;
+    unvisited.push(id);
     paragens[id]. visited = true;
-    while (!q.empty()) { // while there are still unvisited paragens
-        int u = q.front(); q.pop();
-        cout << u << " "; // show node order
-        for (auto e : paragens[u].adj) {
+    while (!unvisited.empty()) {
+        int nodeOrder = unvisited.front(); unvisited.pop();
+        cout << nodeOrder << " ";
+        for (auto e : paragens[nodeOrder].adj) {
             int w = e.destino;
             if (!paragens[w].visited) {
-                q.push(w);
+                unvisited.push(w);
                 paragens[w].visited = true;
             }
         }
@@ -202,13 +195,13 @@ Grafo2::Grafo2(int nodes): n(nodes), paths(list<list<int>>()), caps(list<int>())
     for (int i=1; i <= nodes; i++) cap_safe_copy[i].resize(nodes + 1);
 }
 
-void Grafo2::addLink(int a, int b, int c) {
+void Grafo2::addLink(int id1, int id2, int c) {
     // adjacencias do grafo nao dirigido, porque podemos ter de andar no sentido
     // contrario ao procurarmos caminhos de aumento
-    adj[a].push_back(b);
-    adj[b].push_back(a);
-    cap[a][b] = c;
-    cap_safe_copy[a][b] = c;
+    adj[id1].push_back(id2);
+    adj[id2].push_back(id1);
+    cap[id1][id2] = c;
+    cap_safe_copy[id1][id2] = c;
 }
 
 // BFS para encontrar caminho de aumento
@@ -217,8 +210,8 @@ int Grafo2::bfs(int src, int dest, vector<int> &parent) {
     for (int i=1; i<=n; i++) parent[i] = -1;
 
     parent[src] = -2;
-    queue<pair<int, int>> q;              // fila do BFS com pares (no, capacidade)
-    q.push({src, INT_MAX});    // inicializar com no origem e capacidade infinita
+    queue<pair<int, int>> q;           // fila do BFS com pares (no, capacidade)
+    q.push({src, INT_MAX}); // inicializar com no origem e capacidade infinita
 
     while (!q.empty()) {
         // retirar primeiro no da fila
@@ -234,7 +227,7 @@ int Grafo2::bfs(int src, int dest, vector<int> &parent) {
                 parent[next] = cur;                        // atualizar pai
                 int new_flow = min(flow, cap[cur][next]);  // atualizar fluxo
                 if (next == dest) return new_flow;         // chegamos ao final?
-                q.push({next, new_flow});         // adicionar a fila
+                q.push({next, new_flow});       // adicionar a fila
             }
         }
     }

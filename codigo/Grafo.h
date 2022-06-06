@@ -179,11 +179,17 @@ class Grafo2 {
          * Matriz de capacidades do grafo
          */
         vector<vector <int>> cap;
+        /**
+         * Cópia por segurança da matriz de capacidades
+         */
         vector<vector <int>> cap_safe_copy;
         /**
          * Lista de caminhos do grafo
          */
         list<list<int>> paths;
+        /**
+         * Lista com capacidades ordenadas por índice
+         */
         list<int> caps;
     public:
         /**
@@ -203,11 +209,11 @@ class Grafo2 {
         /**
          * Adiciona adjacência do grafo dirigido
          * para podermos andar no sentido contrario quando procuramos caminhos de aumento
-         * @param a identificador do primeiro nó (local)
-         * @param b identificador do segundo nó (local)
+         * @param id1 identificador do primeiro nó (local)
+         * @param id2 identificador do segundo nó (local)
          * @param c capacidade da ligação
          */
-        void addLink(int a, int b, int c);
+        void addLink(int id1, int id2, int c);
         /**
          * Pesquisa Breadth-First para encontrar caminho de aumento
          * @param src nó (local) de origem
@@ -219,8 +225,8 @@ class Grafo2 {
         /**
          * Determina qual o caminho entre dois locais (src e dest)
          * que maximiza a dimensão de um grupo que pode ser separado.
-         * @param src nó de origem
-         * @param dest nó de destino
+         * @param src nó (local) de origem
+         * @param dest nó (local) de destino
          * @param caminho caminho pretendido para a viagem
          * @return dimensão máxima do grupo
          */

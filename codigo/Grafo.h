@@ -130,9 +130,9 @@ public:
      */
     int minimizarTransbordos(int src, int dest);
     /** TODO: Apagar complexidade dps do ppt
-     * Complexidade temporal: O(E*log(n))\n
-     * E: número total de edges que o grafo possui.\n
-     * n: Tamanho/Número de nós do grafo.\n
+     * Complexidade temporal: O(A*log(N))
+     * A: número total de edges que o grafo possui.
+     * N: Tamanho/Número de nós do grafo.
      *
      * Determina, com recurso ao algoritmo de dijkstra, qual o caminho entre dois locais (src e dest)
      * que maximiza a dimensão do grupo.
@@ -142,14 +142,14 @@ public:
      */
     int maximizarDimensaoGrupo(int src, int dest);
     /**
-     * Escreve o caminho gerado para maximizar a capacidade do grupo
+     * Determina o caminho gerado para maximizar a capacidade do grupo
      * @param src nó (local) de origem
      * @param dest nó (local) de destino
      * @return lista com os nós (locais) constituintes do caminho
      */
     list<int> caminhoMaxC(int src, int dest);
     /**
-     * Escreve o caminho gerado para minimizar o número de transbordos
+     * Determina o caminho gerado para minimizar o número de transbordos
      * @param src nó (local) de origem
      * @param dest nó (local) de destino
      * @return lista com os nós (locais) constituintes do caminho
@@ -162,6 +162,12 @@ public:
      * @return duração miníma da viagem entre os dois locais
      */
     int getDuracaoMinima(int src, int dest);
+    /**
+     * Determina a espera máxima dos passageiros na viagem entre os locais src e dest
+     * @param src nó (local) de origem
+     * @param dest nó (local) de destino
+     * @return espera máxima dos passageiros na viagem entre os dois locais
+     */
     int getEsperaMaxima(int src, int dest);
 };
 
@@ -203,10 +209,12 @@ class Grafo2 {
          */
         Grafo2(int nodes);
         /**
-         * Devolve a
-         * @return
+         * Devolve a lista de capacidades
+         * @return lista de capacidades
          */
-        list<int> getCaps(){return caps;}
+        list<int> getCaps(){
+            return caps;
+        }
         /**
          * Adiciona adjacência do grafo dirigido
          * para podermos andar no sentido contrario quando procuramos caminhos de aumento
@@ -236,7 +244,7 @@ class Grafo2 {
          * Devolve a lista dos caminhos do grafo
          * @return lista de caminhos encontrados
          */
-        list<list<int>> caminhoMaxC(){
+        list<list<int>> getCaminhos(){
             return paths;
         }
         /**

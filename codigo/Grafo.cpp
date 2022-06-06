@@ -186,7 +186,7 @@ int Grafo::getDuracaoMinima(int src, int dest) {
 }
 
 int Grafo::getEsperaMaxima(int src, int dest) {
-    /*int es = getDuracaoMinima(src, dest);
+    int es = getDuracaoMinima(src, dest);
     int espera_max = INT_MIN;
     vector<int> caminho;
     vector<int> esperas(getSize()+1,0);

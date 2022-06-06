@@ -216,7 +216,7 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
     if(capacidade == 0) cout << "Percurso não disponível!" << endl;
     else {
         cout << "Para o percurso selecionado, a dimensão máxima do grupo é de " << capacidade << " pessoas." << endl;
-        list<list<int>> caminhos = grafo2.caminhoMaxC();
+        list<list<int>> caminhos = grafo2.getCaminhos();
         cout << "Caminhos: " << endl;
         int i = 1;
         for (auto caminho: caminhos) {
@@ -242,7 +242,8 @@ void Menu::executeTwo3(int num_ficheiro, int origem, int destino){
 }
 
 void Menu::executeTwo4(int num_ficheiro, int origem, int destino){
-    cout << grafo.getDuracaoMinima(origem, destino) << endl;
+    cout << "O nó (local) em que o grupo se reuniria novamente é o nó (local) nº"
+         << grafo.getDuracaoMinima(origem, destino) << endl;
 
     LoadData loadData;
     grafo2 = loadData.loadGrafo2(num_ficheiro);

@@ -10,7 +10,6 @@
 
 using namespace std;
 
-// Binary min-heap to represent integer keys of type K with values (priorities) of type V
 template <class K, class V>
 class MinHeap {
     /**
@@ -18,7 +17,13 @@ class MinHeap {
      * constituído por um par(chave, valor)
      */
     struct Node {
+        /**
+         * chave
+         */
         K key;
+        /**
+         * valor
+         */
         V value;
     };
 
@@ -43,8 +48,21 @@ class MinHeap {
      */
     const K KEY_NOT_FOUND;
 
+    /**
+     * Faz com que um valor i "suba na árvore" até à sua posição
+     * @param i valor a alterar a posição
+     */
     void upHeap(int i);
+    /**
+     * Faz com que um valor i "desça na árvore" até à sua posição
+     * @param i valor a alterar a posição
+     */
     void downHeap(int i);
+    /**
+     *
+     * @param i1
+     * @param i2
+     */
     void swap(int i1, int i2);
 
 public:
@@ -56,9 +74,8 @@ public:
     K removeMin(); // remove and return key with smaller value
 };
 
-// ----------------------------------------------
+// ---------------------- Implementação -------------------
 
-// Make a value go "up the tree" until it reaches its position
 template <class K, class V>
 void MinHeap<K,V>::upHeap(int i) {
     while (i>1 && elements[i].value < elements[PARENT(i)].value) { // while pos smaller than parent, keep swapping to upper position
@@ -67,7 +84,6 @@ void MinHeap<K,V>::upHeap(int i) {
     }
 }
 
-// Make a value go "down the tree" until it reaches its position
 template <class K, class V>
 void MinHeap<K,V>::downHeap(int i) {
     while (LEFT(i) <= size) { // while within heap limits
